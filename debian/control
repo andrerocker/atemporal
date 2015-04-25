@@ -8,5 +8,5 @@ Homepage: https://github.com/andrerocker/atemporal
 
 Package: atemporal
 Architecture: any
-Depends: nginx-full, ruby2.2, libpq5, libxml2, libxslt1.1, zlib1g
+Depends: ruby2.2, libpq5, libxml2, libxslt1.1, zlib1g, nginx-extras, passenger
 Description: andreckers master of the universe

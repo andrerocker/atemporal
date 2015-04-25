@@ -5,8 +5,8 @@ APP_PATH="/var/www/$APP_NAME"
 
 case "$1" in
   configure)
-	id $APP_NAME || useradd -m -d /var/www/$APP_NAME -s /bin/bash $APP_NAME
-	chown -R $APP_NAME. /var/www/$APP_NAME
+    chown -R www-data. /var/www/$APP_NAME
+    test -f /etc/nginx/sites-enabled/default && rm /etc/nginx/sites-enabled/default
   ;;
 
   abort-upgrade|abort-remove|abort-deconfigure)

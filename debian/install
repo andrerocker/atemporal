@@ -1,1 +1,1 @@
-Gemfile Gemfile.lock .bundle config.ru config vendor /var/www/atemporal
+Gemfile Gemfile.lock .bundle config.ru app bin config db lib public vendor /var/www/atemporal

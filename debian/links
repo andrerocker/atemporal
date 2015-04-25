@@ -1,1 +1,1 @@
-/var/www/geminabox/config/nginx.conf /etc/nginx/sites-enabled/geminabox
+/var/www/atemporal/config/nginx.conf /etc/nginx/sites-enabled/atemporal
