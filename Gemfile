@@ -8,6 +8,7 @@ gem 'aasm'
 gem 'roar-rails'
 
 group :development, :test do
+  gem 'gemfury'
   gem 'pry'
   gem 'spring'
   gem 'better_errors'
