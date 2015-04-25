@@ -1,13 +1,15 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.8'
+gem 'rails', '4.2.1'
 gem 'pg'
-gem 'rspec-rails'
-gem 'jbuilder', '~> 2.0'
 gem 'puma'
 gem 'sidekiq'
 gem 'aasm'
+gem 'roar-rails'
 
-group :development do
+group :development, :test do
+  gem 'pry'
   gem 'spring'
+  gem 'better_errors'
+  gem 'rspec-rails'
 end
