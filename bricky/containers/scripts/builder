@@ -1,0 +1,13 @@
+#!/bin/bash -l
+
+cp -R /source /opt/
+
+pushd /opt/source
+	dpkg-buildpackage -b -rfakeroot	
+popd
+
+pushd /opt
+	cp *.deb *.changes /build/
+popd
+
+dpkg-scanpackages /build/ | gzip > /build/Packages.gz
