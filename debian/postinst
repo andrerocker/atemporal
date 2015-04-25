@@ -1,0 +1,23 @@
+#!/bin/bash -e
+
+APP_NAME="atemporal"
+APP_PATH="/var/www/$APP_NAME"
+
+case "$1" in
+  configure)
+	id $APP_NAME || useradd -m -d /var/www/$APP_NAME -s /bin/bash $APP_NAME
+	chown -R $APP_NAME. /var/www/$APP_NAME
+  ;;
+
+  abort-upgrade|abort-remove|abort-deconfigure)
+  ;;
+
+  *)
+    echo "postinst called with unknown argument \`$1'" >&2
+    exit 1
+  ;;
+esac
+
+#DEBHELPER#
+
+exit 0

@@ -1,0 +1,12 @@
+Source: atemporal
+Section: ruby
+Priority: optional
+Maintainer: Andre Souza <andre.souza@gmail.com>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.1
+Homepage: https://github.com/andrerocker/atemporal
+
+Package: atemporal
+Architecture: any
+Depends: nginx-full, ruby2.2, libpq5, libxml2, libxslt1.1, zlib1g
+Description: andreckers master of the universe

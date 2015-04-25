@@ -1,0 +1,40 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          emkt-web
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start locainabox at boot time
+# Description:       Enable service provided by locainabox
+### END INIT INFO
+
+set -e
+
+package_name=atemporal
+app_root="/var/www/${package_name}"
+startup_command="bundle exec will be the sidekiq bin"
+
+cd $app_root
+
+case "$1" in
+  start)
+	su $package_name -c $starup_command
+  ;;
+
+  stop)
+	test -f tmp/pids/unicorn.pid && kill $(cat tmp/pids/unicorn.pid)
+  ;;
+
+  restart)
+	test -f tmp/pids/unicorn.pid && kill -USR2 $(cat tmp/pids/unicorn.pid)
+  ;;
+
+  *)
+    echo "Usage: /etc/init.d/$package_name {start|stop|restart}" >&2
+    exit 1
+  ;;
+esac
+
+exit 0
