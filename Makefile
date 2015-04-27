@@ -3,16 +3,22 @@ bootstrap:
 	docker build -t atemporal/runtime bricky/containers/images/runtime
 
 builder:
-	docker-compose -p atemporal -f bricky/atemporal-builder.yml run builder /scripts/builder
+	docker-compose -p atemporal -f bricky/atemporal-builder.yml \
+	       	run builder /scripts/builder
 
 runtime:
-	docker-compose -p atemporal -f bricky/atemporal-runtime.yml run runtime /scripts/runtime
+	docker-compose -p atemporal -f bricky/atemporal-runtime.yml \
+		run runtime /scripts/runtime
 
 bootstrap-infra:
-	cd terraform; terraform apply -var "public_key=$(shell cat ~/.ssh/id_rsa.pub)"
+	cd terraform; terraform apply \
+	       	-var "public_key=$(shell cat ~/.ssh/id_rsa.pub)" \
+	       	-var "access_key=$(shell head -1 .credentials)" \
+	       	-var "secret_key=$(shell tail -1 .credentials)"
 
 destroy-infra:
-	cd terraform; terraform destroy -force -var "public_key=$(shell cat ~/.ssh/id_rsa.pub)"
+	cd terraform; terraform destroy -force \
+	       	-var "public_key=$(shell cat ~/.ssh/id_rsa.pub)"
 
 upload-package:
 	curl -F package=@bricky/containers/tmp/build/atemporal_0.0.2_amd64.deb \
