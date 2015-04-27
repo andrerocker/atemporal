@@ -4,17 +4,17 @@ resource "aws_instance" "web" {
   key_name = "${var.key_name}"
   security_groups = ["${aws_security_group.atemporal.name}"]
 
-  connection {
-    user = "ubuntu"
-    agent = true
-  }
+  # connection {
+  #   user = "ubuntu"
+  #   agent = true
+  # }
 
-  provisioner "remote-exec" {
-    script = "install-package.sh"
-  }
+  # provisioner "remote-exec" {
+  #   script = "install-package.sh"
+  # }
 }
  
-resource "aws_elb" "atemporal" {
+resource "aws_elb" "loadbalancer" {
   name = "atemporal"
   availability_zones = ["${aws_instance.web.availability_zone}"]
 
