@@ -1,0 +1,8 @@
+builder:
+  image: atemporal/builder
+  command: /scripts/builder
+  volumes:
+    - ..:/source
+    - containers/scripts:/scripts
+    - containers/tmp/build:/build
+    - containers/tmp/cache:/opt/source/vendor/bundle

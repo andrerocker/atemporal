@@ -1,0 +1,22 @@
+runtime:
+  image: atemporal/runtime
+  command: /scripts/runtime 
+  environment:
+    - RAILS_ENV=production
+    - DATABASE_HOST=postgresql
+    - DATABASE_NAME=atemporal_production
+    - DATABASE_USERNAME=locaweb
+    - DATABASE_PASSWORD=locaweb
+
+  volumes:
+    - containers/scripts:/scripts
+    - containers/tmp/build:/build
+  links:
+    - redis
+    - postgresql
+
+redis:
+  image: locaweb/redis
+
+postgresql:
+  image: locaweb/postgresql

@@ -4,4 +4,6 @@ echo "deb file:/// build/" >> /etc/apt/sources.list.d/local.list
 apt-get update
 apt-get install -y --force-yes atemporal
 
+service nginx start
 /bin/bash
+

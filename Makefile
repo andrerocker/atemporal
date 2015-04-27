@@ -3,15 +3,7 @@ bootstrap:
 	docker build -t atemporal/runtime bricky/containers/images/runtime
 
 builder:
-	docker run \
-                -v $(CURDIR):/source \
-                -v $(CURDIR)/bricky/containers/scripts:/scripts \
-                -v $(CURDIR)/bricky/containers/tmp/build:/build \
-                -v $(CURDIR)/bricky/containers/tmp/cache:/opt/source/vendor/bundle \
-                -i -t atemporal/builder /scripts/builder
+	docker-compose -p atemporal -f bricky/atemporal-builder.yml run builder /scripts/builder
 
 runtime:
-	docker run \
-                -v $(CURDIR)/bricky/containers/scripts:/scripts \
-                -v $(CURDIR)/bricky/containers/tmp/build:/build \
-                -i -t atemporal/runtime /scripts/runtime
+	docker-compose -p atemporal -f bricky/atemporal-runtime.yml run runtime /scripts/runtime
