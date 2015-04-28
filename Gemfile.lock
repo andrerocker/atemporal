@@ -50,19 +50,10 @@ GEM
     diff-lcs (1.2.5)
     diffy (3.0.7)
     erubis (2.7.0)
-    faraday (0.9.1)
-      multipart-post (>= 1.2, < 3)
     foreman (0.78.0)
       thor (~> 0.19.1)
-    gemfury (0.4.26)
-      faraday (>= 0.9.0, < 0.10.0.pre)
-      highline (~> 1.6.0)
-      multi_json (~> 1.0)
-      netrc (~> 0.7.7)
-      thor (>= 0.14.0, < 1.0.0.pre)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
-    highline (1.6.21)
     hitimes (1.2.2)
     i18n (0.7.0)
     json (1.8.2)
@@ -75,8 +66,6 @@ GEM
     mini_portile (0.6.2)
     minitest (5.6.0)
     multi_json (1.11.0)
-    multipart-post (2.0.0)
-    netrc (0.7.9)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     pg (0.18.1)
@@ -181,7 +170,6 @@ DEPENDENCIES
   aasm
   better_errors
   foreman
-  gemfury
   pg
   pry
   puma

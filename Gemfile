@@ -11,7 +11,6 @@ gem 'roar-rails'
 group :development, :test do
   gem 'pry'
   gem 'spring'
-  gem 'gemfury'
   gem 'rspec-rails'
   gem 'better_errors'
 end
