@@ -1,17 +1,9 @@
 resource "aws_instance" "web" {
+  # ubuntu 14.04 pv
   ami = "ami-d85e75b0"
   instance_type = "t1.micro"
   key_name = "${var.key_name}"
   security_groups = ["${aws_security_group.atemporal.name}"]
-
-  # connection {
-  #   user = "ubuntu"
-  #   agent = true
-  # }
-
-  # provisioner "remote-exec" {
-  #   script = "install-package.sh"
-  # }
 }
  
 resource "aws_elb" "loadbalancer" {
