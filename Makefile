@@ -1,18 +1,17 @@
 package-bootstrap:
+	docker build -t atemporal/coreimg bricky/containers/images/coreimg
 	docker build -t atemporal/builder bricky/containers/images/builder
-	docker build -t atemporal/runtime bricky/containers/images/runtime
 
 package-builder:
-	docker-compose -p atemporal -f bricky/atemporal-builder.yml \
-	       	run builder /scripts/builder
+	docker-compose -p atemporal -f bricky/atemporal-builder.yml up 
+	docker build -t atemporal/runtime bricky/containers/images/runtime
 
 package-runtime:
-	docker-compose -p atemporal -f bricky/atemporal-runtime.yml \
-		run runtime /scripts/runtime
+	docker-compose -p atemporal -f bricky/atemporal-runtime.yml up #run runtime /scripts/runtime
 
-package-upload:
-	curl -F package=@bricky/containers/tmp/build/atemporal_0.0.2_amd64.deb \
-		https://4DSoHeowovJgJ2LvG-p4@push.fury.io/deploy42/
+package-registry:
+	docker tag -f atemporal/runtime $(shell cat .docker-username)/atemporal
+	docker push $(shell cat .docker-username)/atemporal
 
 servers-bootstrap:
 	cd terraform; terraform apply \

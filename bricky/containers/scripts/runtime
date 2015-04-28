@@ -1,9 +1,11 @@
-#!/bin/bash
+#!/bin/bash -le
 
-echo "deb file:/// build/" >> /etc/apt/sources.list.d/local.list
-apt-get update
-apt-get install -y --force-yes atemporal
+echo "-----------------------------------------------------------------------"
+ip addr show eth0 | grep "inet "
+echo "-----------------------------------------------------------------------"
 
-service nginx start
-/bin/bash
+pushd /var/www/atemporal
+  bundle exec rake db:setup
+popd
 
+/start

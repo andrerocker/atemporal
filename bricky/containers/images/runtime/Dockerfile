@@ -1,15 +1,11 @@
-FROM ubuntu:14.04
-MAINTAINER Platform Team 0.2
+FROM atemporal/coreimg
+MAINTAINER andrerocker 0.1
 
-RUN apt-get update
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
-RUN apt-get install --no-install-recommends -y --force-yes apt-transport-https ca-certificates
-RUN echo 'deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main' > /etc/apt/sources.list.d/passenger.list
+ADD scripts /
+ADD package /opt
 
-RUN apt-get install --no-install-recommends -y --force-yes software-properties-common
-RUN apt-add-repository -y ppa:brightbox/ruby-ng
+RUN mkdir -p /var/www
+RUN tar -xzf /opt/application.tar -C /var/www
+RUN mkdir -p /var/www/atemporal/log && touch /var/www/atemporal/log/production.log
 
-RUN apt-get update
-RUN apt-get install --no-install-recommends -y --force-yes ruby2.2
-RUN gem install bundler
-RUN echo 'export PATH=$PATH:/usr/local/bin' >> /etc/profile
+RUN chown -R www-data. /var/www/atemporal

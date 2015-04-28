@@ -4,5 +4,5 @@ builder:
   volumes:
     - ..:/source
     - containers/scripts:/scripts
-    - containers/tmp/build:/build
-    - containers/tmp/cache:/opt/source/vendor/bundle
+    - containers/images/runtime/package:/build
+    - containers/tmp/cache:/opt/atemporal/vendor/bundle

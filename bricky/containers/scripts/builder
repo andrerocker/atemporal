@@ -1,13 +1,15 @@
-#!/bin/bash -l
+#!/bin/bash -le
 
-cp -R /source /opt/
+rsync -a \
+  --exclude 'log' \
+  --exclude 'bricky' \
+  --exclude 'terraform' \
+  --stats /source/* /opt/atemporal
 
-pushd /opt/source
-	dpkg-buildpackage -b -rfakeroot	
+pushd /opt/atemporal
+  bundle install --deployment --without=development:test
 popd
 
 pushd /opt
-	cp *.deb *.changes /build/
+  tar czf /build/application.tar atemporal
 popd
-
-dpkg-scanpackages /build/ | gzip > /build/Packages.gz

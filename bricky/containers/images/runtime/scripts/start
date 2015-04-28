@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pushd /var/www/atemporal
+  bundle exec foreman start
+popd
