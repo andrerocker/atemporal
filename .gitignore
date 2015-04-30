@@ -14,7 +14,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-bricky/containers/tmp
+devops/bricky/containers/tmp
 .credentials
 *.tar
 .docker-username
