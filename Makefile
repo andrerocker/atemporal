@@ -1,6 +1,7 @@
 package-bootstrap:
 	docker build -t atemporal/coreimg devops/bricky/containers/images/coreimg
 	docker build -t atemporal/builder devops/bricky/containers/images/builder
+	docker build -t atemporal/httpsrv devops/bricky/containers/images/httpsrv
 
 package-builder:
 	docker-compose -p atemporal -f devops/bricky/atemporal-builder.yml up 
@@ -10,7 +11,9 @@ package-runtime:
 	docker-compose -p atemporal -f devops/bricky/atemporal-runtime.yml up
 
 package-registry:
+	docker tag -f atemporal/httpsrv $(shell cat .docker-username)/httpsrv
 	docker tag -f atemporal/runtime $(shell cat .docker-username)/atemporal
+	docker push $(shell cat .docker-username)/httpsrv
 	docker push $(shell cat .docker-username)/atemporal
 
 servers-bootstrap:
