@@ -25,34 +25,6 @@ resource "aws_instance" "servers" {
   tags {
         Name = "Atemporal CoreOS ${count.index}"
   }
-
-  user_data = <<EOF
-#cloud-config
-
-coreos:
-  etcd:
-    discovery: ${var.cluster_discovery}
-    addr: $private_ipv4:4001
-    peer-addr: $private_ipv4:7001
-  units:
-    - name: etcd.service
-      command: start
-    - name: fleet.service
-      command: start
-    - name: httpsrv.service
-      command: start
-      content: |
-        [Unit]
-        Description=Atemporal http
-        After=docker.service
-        Requires=docker.service
-        
-        [Service]
-        TimeoutStartSec=900s
-        ExecStartPre=-/usr/bin/docker kill httpsrv
-        ExecStartPre=-/usr/bin/docker rm httpsrv
-        ExecStartPre=/usr/bin/docker pull andrerocker/httpsrv
-        ExecStart=/usr/bin/docker run --name httpsrv -p 80:80 andrerocker/httpsrv
-        ExecStop=/usr/bin/docker stop httpsrv
-EOF  
+  
+  user_data = "${replace(file("../coreos/cloud-config.yml"), "DISCOVERY", var.cluster_discovery)}"
 }
