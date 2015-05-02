@@ -26,5 +26,5 @@ resource "aws_instance" "servers" {
         Name = "Atemporal CoreOS ${count.index}"
   }
   
-  user_data = "${replace(file("../coreos/cloud-config.yml"), "DISCOVERY", var.cluster_discovery)}"
+  user_data = "${replace(replace(file("../coreos/cloud-config.yml"), "DISCOVERY", var.cluster_discovery), "DOCKER_USERNAME", var.docker_username)}"
 }

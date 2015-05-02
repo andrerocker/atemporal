@@ -19,9 +19,9 @@ coreos:
         Requires=docker.service
         
         [Service]
-        TimeoutStartSec=900s
-        ExecStartPre=-/usr/bin/docker kill httpsrv
-        ExecStartPre=-/usr/bin/docker rm httpsrv
-        ExecStartPre=/usr/bin/docker pull andrerocker/httpsrv
-        ExecStart=/usr/bin/docker run --name httpsrv -p 80:80 andrerocker/httpsrv
-        ExecStop=/usr/bin/docker stop httpsrv
+        TimeoutStartSec=10m
+        ExecStartPre=-/usr/bin/docker kill atemporal
+        ExecStartPre=-/usr/bin/docker rm atemporal
+        ExecStartPre=/usr/bin/docker pull DOCKER_USERNAME/atemporal
+        ExecStart=/usr/bin/docker run --name httpsrv -p 80:80 DOCKER_USERNAME/atemporal
+        ExecStop=/usr/bin/docker stop atemporal

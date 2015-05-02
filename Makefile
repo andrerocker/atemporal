@@ -21,6 +21,7 @@ servers-bootstrap:
 	       	-var "public_key=$(shell cat ~/.ssh/id_rsa.pub)" \
 	       	-var "access_key=$(shell head -1 .credentials)" \
 	       	-var "secret_key=$(shell tail -1 .credentials)" \
+	       	-var "docker_username=$(shell cat .docker-username)" \
 	       	-var "cluster_discovery=$(shell curl -s http://discovery.etcd.io/new)"
 
 servers-terminate:
@@ -28,4 +29,5 @@ servers-terminate:
 	       	-var "public_key=$(shell cat ~/.ssh/id_rsa.pub)" \
 	       	-var "access_key=$(shell head -1 .credentials)" \
 	       	-var "secret_key=$(shell tail -1 .credentials)" \
+	       	-var "docker_username=1337" \
 	       	-var "cluster_discovery=1337"

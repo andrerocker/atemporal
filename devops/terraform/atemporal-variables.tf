@@ -14,4 +14,5 @@ variable "secret_key" {
   description = "AWS secret key"
 }
 
+variable "docker_username" {}
 variable "cluster_discovery" {}
