@@ -10,9 +10,7 @@ package-runtime:
 	docker-compose -p atemporal -f devops/bricky/atemporal-runtime.yml up
 
 package-registry:
-	docker tag -f atemporal/httpsrv $(shell cat .docker-username)/httpsrv
 	docker tag -f atemporal/runtime $(shell cat .docker-username)/atemporal
-	docker push $(shell cat .docker-username)/httpsrv
 	docker push $(shell cat .docker-username)/atemporal
 
 servers-bootstrap:
