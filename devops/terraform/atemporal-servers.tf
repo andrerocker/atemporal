@@ -18,7 +18,7 @@ resource "aws_instance" "servers" {
   depends_on = ["aws_security_group.atemporal"]
   instance_type = "t1.micro"
   ami = "ami-4df91b09"
-  count = "3"
+  count = "${var.server_instances_count}"
   key_name = "${var.key_name}"
   security_groups = ["${aws_security_group.atemporal.name}"]
 

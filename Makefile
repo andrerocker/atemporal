@@ -31,3 +31,6 @@ servers-terminate:
 	       	-var "secret_key=$(shell tail -1 .credentials)" \
 	       	-var "docker_username=1337" \
 	       	-var "cluster_discovery=1337"
+
+application-deploy: package-bootstrap package-builder package-registry servers-bootstrap
+	echo "\o/"

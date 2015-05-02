@@ -14,5 +14,10 @@ variable "secret_key" {
   description = "AWS secret key"
 }
 
+
+variable "server_instances_count" {
+  default = "3"
+}
+
 variable "docker_username" {}
 variable "cluster_discovery" {}
