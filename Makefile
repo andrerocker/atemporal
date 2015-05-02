@@ -1,7 +1,6 @@
 package-bootstrap:
 	docker build -t atemporal/coreimg devops/bricky/containers/images/coreimg
 	docker build -t atemporal/builder devops/bricky/containers/images/builder
-	docker build -t atemporal/httpsrv devops/bricky/containers/images/httpsrv
 
 package-builder:
 	docker-compose -p atemporal -f devops/bricky/atemporal-builder.yml up 
