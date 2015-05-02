@@ -28,15 +28,8 @@ resource "aws_security_group" "atemporal" {
   }
 
   ingress {
-    from_port = 4001
-    to_port = 4001
-    protocol = "tcp"
-    self = true
-  }
-
-  ingress {
-    from_port = 7001
-    to_port = 7001
+    from_port = 0
+    to_port = 65535
     protocol = "tcp"
     self = true
   }
