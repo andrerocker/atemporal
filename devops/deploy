@@ -1,0 +1,11 @@
+#!/bin/bash
+
+servers=$(terraform output -state=devops/terraform/terraform.tfstate server | tr "," "\n")
+
+for server in $servers
+do
+  echo "Deploying: ${server}"
+  ssh -o StrictHostKeyChecking=no core@$server "sudo bash -c 'systemctl restart atemporal.service'"
+done
+
+echo ":p"

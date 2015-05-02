@@ -29,5 +29,8 @@ servers-terminate:
 	       	-var "docker_username=1337" \
 	       	-var "cluster_discovery=1337"
 
-application-deploy: package-bootstrap package-builder package-registry servers-bootstrap
+application-deploy: package-builder package-registry
+	devops/deploy
+
+application-fullstack-deploy: package-bootstrap package-builder package-registry servers-bootstrap
 	echo "\o/"
