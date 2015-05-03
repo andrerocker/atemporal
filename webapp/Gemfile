@@ -6,6 +6,7 @@ gem 'aasm'
 gem 'puma'
 gem 'daemons'
 gem 'foreman'
+gem 'aws-sdk'
 gem 'roar-rails'
 gem 'delayed_job_active_record'
 
@@ -13,5 +14,6 @@ group :development, :test do
   gem 'pry'
   gem 'spring'
   gem 'rspec-rails'
+  gem 'dotenv-rails'
   gem 'better_errors'
 end
