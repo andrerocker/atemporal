@@ -2,8 +2,6 @@
 
 rsync -a \
   --exclude 'log' \
-  --exclude 'bricky' \
-  --exclude 'terraform' \
   --stats /source/* /opt/atemporal
 
 pushd /opt/atemporal

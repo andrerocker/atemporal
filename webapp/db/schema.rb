@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150503002625) do
+ActiveRecord::Schema.define(version: 20150503063044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,13 @@ ActiveRecord::Schema.define(version: 20150503002625) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "instances", force: :cascade do |t|
+    t.string   "aws_id"
+    t.integer  "job_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "jobs", force: :cascade do |t|
     t.string   "image"
