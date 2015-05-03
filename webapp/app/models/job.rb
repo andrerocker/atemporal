@@ -3,7 +3,10 @@ class Job < ActiveRecord::Base
   include JobStateMachineActions
 
   has_many :instances
-  validates :image, presence: true
+  validates :image, {
+    presence: true, 
+    format: { with: /\A[a-zA-Z0-9-_.\/]+\z/, message: "only allows /\A[a-z0-9-_.\/]+\z/" }
+  }
 
   scope :create_and_schedule, ->(params) do
     create!(params).tap { |job| job.schedule! }

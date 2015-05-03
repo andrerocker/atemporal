@@ -1,6 +1,6 @@
 #!/bin/bash
 
-image="busybox"
+image="nginx"
 time="2015-04-25T05:27:27.069Z"
 server="localhost:3000/jobs.json"
 payload=$(echo 'NAME="bond, james bond"' | base64)

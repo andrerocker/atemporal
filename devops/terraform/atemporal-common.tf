@@ -34,3 +34,15 @@ resource "aws_security_group" "atemporal" {
     self = true
   }
 }
+
+resource "aws_security_group" "atemporal-worker" {
+  name = "atemporal-worker"
+  description = "atemporal worker security group"
+ 
+  ingress {
+    from_port = 0
+    to_port = 65535
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
