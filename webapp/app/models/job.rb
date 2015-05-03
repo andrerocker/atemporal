@@ -29,6 +29,6 @@ class Job < ActiveRecord::Base
   end
 
   def format_payload
-    payload
+    Base64.decode64(payload)
   end
 end
