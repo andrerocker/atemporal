@@ -1,0 +1,24 @@
+#cloud-config
+
+write_files:
+  - path: /etc/atemporal-worker
+    content: |
+      <%= format_payload %>
+
+coreos:
+  units:
+    - name: atemporal-worker.service
+      command: start
+      content: |
+        [Unit]
+        Description=Atemporal Worker
+        After=docker.service
+        Requires=docker.service
+        
+        [Service]
+        TimeoutStartSec=10m
+        ExecStartPre=-/usr/bin/docker kill atemporal-worker
+        ExecStartPre=-/usr/bin/docker rm atemporal-worker
+        ExecStartPre=/usr/bin/docker pull <%= image %>
+        ExecStart=/usr/bin/docker run --env-file=/etc/atemporal-worker --name atemporal-worker -p 80:8080 <%= image %> /start
+        ExecStop=/usr/bin/docker stop atemporal-worker

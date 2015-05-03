@@ -1,12 +1,14 @@
 class Job < ActiveRecord::Base
   include AASM
-
-  scope :create_and_schedule, ->(params) {
-    create!(params).tap { |job| job.schedule! }
-  }
+  include JobStateMachineActions
 
   validates :time, presence: true
   validates :image, presence: true
+  has_many :instances
+
+  scope :create_and_schedule, ->(params) do
+    create!(params).tap { |job| job.schedule! }
+  end
 
   aasm column: :state do
     state :created, initial: true
@@ -18,19 +20,15 @@ class Job < ActiveRecord::Base
     state :finished
 
     event :schedule do
-      transitions from: :created, to: :scheduled
-
-      after do
-        RunnerJob.set(wait_until: self.time).perform_later(self.id)
-      end
+      transitions from: :created, to: :scheduled, after: :schedule_current_job
     end
 
     event :execute do
-      transitions from: :scheduled, to: :running
-  
-      after do
-        puts "Truta"
-      end
+      transitions from: :scheduled, to: :running, after: :execute_current_job
     end
+  end
+
+  def format_payload
+    payload
   end
 end
