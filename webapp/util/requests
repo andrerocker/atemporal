@@ -1,1 +1,1 @@
-curl -vvv  -X POST -d "image=bacon&time=2015-04-25T05:27:27.069Z" localhost:3000/jobs.json
+curl -vvv  -X POST -d "image=busybox&time=2015-04-25T05:27:27.069Z&payload=BACONMUAHAHAHHA" localhost:3000/jobs.json
