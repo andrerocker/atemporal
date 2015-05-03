@@ -25,7 +25,7 @@ class JobsController < ApplicationController
   def create
     respond_to do |format|
       format.json do 
-        render status: 201, json: Job.create!(job_params).extend(JobRepresenter)
+        render status: 201, json: Job.create_and_schedule(job_params).extend(JobRepresenter)
       end
     end
   end

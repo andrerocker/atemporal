@@ -23,7 +23,7 @@ resource "aws_elb" "loadbalancer" {
 }
 
 resource "aws_instance" "servers" {
-  depends_on = ["aws_security_group.atemporal", "aws_instance.redis"]
+  depends_on = ["aws_security_group.atemporal"]
   instance_type = "c1.medium"
   ami = "ami-4df91b09"
   count = "${var.server_instances_count}"
@@ -41,7 +41,6 @@ write_files:
   - path: /etc/atemporal
     content: |
       RAILS_ENV=production
-      REDIS_URL=redis://${aws_instance.redis.private_ip}:6379
       DATABASE_URL=postgres://atemporal:atemporal@${aws_db_instance.database.endpoint}/atemporalpg
       SECRET_KEY_BASE=c39362cda691f8394182f72c0c5b02bb6da54a9be6e374e948a7672db636de4e284a2e0f6dbe16b92f885d95e8075b2cfbcadc31dd2b4dd3e94eaac8711e1b3e
 
