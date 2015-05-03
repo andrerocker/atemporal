@@ -6,6 +6,6 @@ class RunnerJob < ActiveJob::Base
     current = Job.find(args.first)
 
     puts current.inspect
-    current.execute!
+    current.prepare!
   end
 end

@@ -2,8 +2,9 @@
 
 write_files:
   - path: /etc/atemporal-worker
+    encoding: base64
     content: |
-      <%= format_payload %>
+      <%= payload %>
 
 coreos:
   units:

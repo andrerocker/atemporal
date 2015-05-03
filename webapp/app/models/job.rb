@@ -2,9 +2,8 @@ class Job < ActiveRecord::Base
   include AASM
   include JobStateMachineActions
 
-  validates :time, presence: true
-  validates :image, presence: true
   has_many :instances
+  validates :image, presence: true
 
   scope :create_and_schedule, ->(params) do
     create!(params).tap { |job| job.schedule! }
@@ -13,6 +12,7 @@ class Job < ActiveRecord::Base
   aasm column: :state do
     state :created, initial: true
     state :scheduled
+    state :warming
     state :running
     state :failure
     state :shutdown
@@ -23,12 +23,17 @@ class Job < ActiveRecord::Base
       transitions from: :created, to: :scheduled, after: :schedule_current_job
     end
 
+    event :prepare do
+      transitions from: :scheduled, to: :warming, after: :execute_current_job
+    end
+
     event :execute do
-      transitions from: :scheduled, to: :running, after: :execute_current_job
+      transitions from: :warming, to: :running, after: :execute_current_job
     end
   end
 
-  def format_payload
-    Base64.decode64(payload)
+  def time
+    return @time if @time.present?
+    Time.now
   end
 end

@@ -1,1 +1,8 @@
-curl -vvv  -X POST -d "image=busybox&time=2015-04-25T05:27:27.069Z&payload=BACONMUAHAHAHHA" localhost:3000/jobs.json
+#!/bin/bash
+
+image="busybox"
+time="2015-04-25T05:27:27.069Z"
+server="localhost:3000/jobs.json"
+payload=$(echo 'NAME="bond, james bond"' | base64)
+
+curl -vvv  -X POST -d "image=$image&time=$time&payload=$payload" $server
