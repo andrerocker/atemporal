@@ -4,9 +4,10 @@ gem 'rails', '4.2.1'
 gem 'pg'
 gem 'aasm'
 gem 'puma'
+gem 'daemons'
 gem 'foreman'
-gem 'sidekiq'
 gem 'roar-rails'
+gem 'delayed_job_active_record'
 
 group :development, :test do
   gem 'pry'

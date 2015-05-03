@@ -60,7 +60,7 @@ coreos:
         ExecStartPre=-/usr/bin/docker kill atemporal
         ExecStartPre=-/usr/bin/docker rm atemporal
         ExecStartPre=/usr/bin/docker pull ${var.docker_username}/atemporal
-        ExecStart=/usr/bin/docker run --env-file=/etc/atemporal --name atemporal -p 80:80 ${var.docker_username}/atemporal /start
+        ExecStart=/usr/bin/docker run --env-file=/etc/atemporal --name atemporal -p 80:8080 ${var.docker_username}/atemporal /start
         ExecStop=/usr/bin/docker stop atemporal
 EOF
 }
