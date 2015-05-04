@@ -25,7 +25,7 @@ resource "aws_elb" "loadbalancer" {
 resource "aws_instance" "servers" {
   depends_on = ["aws_security_group.atemporal"]
   instance_type = "c1.medium"
-  ami = "ami-4df91b09"
+  ami = "${var.coreos_ami}"
   count = "${var.server_instances_count}"
   key_name = "${var.key_name}"
   security_groups = ["${aws_security_group.atemporal.name}"]
@@ -40,6 +40,13 @@ resource "aws_instance" "servers" {
 write_files:
   - path: /etc/atemporal
     content: |
+      AWS_REGION=${var.region}
+      AWS_ACCESS_KEY_ID=${var.access_key}
+      AWS_SECRET_ACCESS_KEY=${var.secret_key}
+      AWS_IMAGE_ID=${var.coreos_ami}
+      AWS_INSTANCE_TYPE=t1.micro
+      AWS_SECURITY_GROUP=${aws_security_group.atemporal-worker.name}
+      AWS_KEY_NAME=${var.key_name}
       RAILS_ENV=production
       DATABASE_URL=postgres://atemporal:atemporal@${aws_db_instance.database.endpoint}/atemporalpg
       SECRET_KEY_BASE=c39362cda691f8394182f72c0c5b02bb6da54a9be6e374e948a7672db636de4e284a2e0f6dbe16b92f885d95e8075b2cfbcadc31dd2b4dd3e94eaac8711e1b3e
