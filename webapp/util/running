@@ -1,0 +1,4 @@
+#!/bin/bash
+
+server="localhost:3000/jobs/$1/callback.json"
+curl -vvv  -X PATCH  $server
