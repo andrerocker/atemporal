@@ -36,7 +36,6 @@ module JobStateMachineActions
 
     def build_user_data
       content = open(Rails.root.join('config/worker-cloud-config.yml')).read
-      parser = ERB.new(content)
-      Base64.encode64(parser.result(binding))
+      Base64.encode64(ERB.new(content).result(binding))
     end
 end

@@ -31,7 +31,7 @@ class Job < ActiveRecord::Base
     end
 
     event :running do
-      transitions from: :warming, to: :running, after: :execute_current_job
+      transitions from: :warming, to: :running
     end
 
     event :finished do
