@@ -20,9 +20,6 @@ class Job < ActiveRecord::Base
     state :scheduled
     state :warming
     state :running
-    state :failure
-    state :shutdown
-    state :callback
     state :finished
 
     event :schedule do
@@ -35,6 +32,10 @@ class Job < ActiveRecord::Base
 
     event :running do
       transitions from: :warming, to: :running, after: :execute_current_job
+    end
+
+    event :finished do
+      transitions from: :running, to: :finished, after: :destroy_job_runtime
     end
   end
 

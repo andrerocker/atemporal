@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :jobs, only: [:create, :index, :show] do
     member do
       patch :callback, action: :running
+      delete :callback, action: :finished
     end
   end
 end

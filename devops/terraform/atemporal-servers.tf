@@ -31,7 +31,7 @@ resource "aws_instance" "servers" {
   security_groups = ["${aws_security_group.atemporal.name}"]
 
   tags {
-        Name = "Atemporal CoreOS ${count.index}"
+        Name = "Atemporal - Web ${count.index}"
   }
 
   user_data = <<EOF

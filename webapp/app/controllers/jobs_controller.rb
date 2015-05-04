@@ -7,60 +7,36 @@ class JobsController < ApplicationController
   end
 
   def index
-    respond_to do |format|
-      format.json do
-        render json: Job.all.extend(JobsRepresenter)
-      end
-    end
-  end
-
-  def show
-    respond_to do |format|
-      format.json do
-        render json: Job.find(params[:id]).extend(JobRepresenter)
-      end
-    end
+    render json: Job.all.extend(JobsRepresenter)
   end
 
   def create
-    respond_to do |format|
-      format.json do 
-        render status: 201, json: Job.create_and_schedule(job_params).extend(JobRepresenter)
-      end
-    end
+    render status: 201, json: Job.create_and_schedule(job_params).extend(JobRepresenter)
   end
 
-  def callback
-    respond_to do |format|
-      format.json do
-        render json: Job.find(params[:id]).tap { |job| job.touch }
-      end
-    end
+  def show
+    render json: resolve_job.extend(JobRepresenter)
   end
 
   def running
-    respond_to do |format|
-      format.json do
-        render json: Job.find(params[:id]).tap { |job| job.running! }
-      end
-    end
+    render json: resolve_job.tap { |job| job.running! }
+  end
+
+  def finished
+    render json: resolve_job.tap { |job| job.finished! }
   end
 
   private
     def not_found
-      respond_to do |format|
-        format.json do
-          render status: 404, json: { error: "Job #{params[:id]} not found" }
-        end 
-      end
+      render status: 404, json: { error: "Job #{params[:id]} not found" }
     end
 
     def unprocessable_entity(exception)
-      respond_to do |format|
-        format.json do
-          render status: 422, json: {error: exception.message}
-        end
-      end
+      render status: 422, json: {error: exception.message}
+    end
+
+    def resolve_job
+      Job.find(params[:id])
     end
 
     def job_params
