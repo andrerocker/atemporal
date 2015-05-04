@@ -21,5 +21,6 @@ coreos:
         ExecStartPre=-/usr/bin/docker kill atemporal-worker
         ExecStartPre=-/usr/bin/docker rm atemporal-worker
         ExecStartPre=/usr/bin/docker pull <%= image %>
-        ExecStart=/usr/bin/docker run -P --env-file=/etc/atemporal-worker --name atemporal-worker -p 80:8080 <%= image %>
+        ExecStartPre=/usr/bin/curl -X PATCH <%= formatted_callback_server %>
+        ExecStart=/usr/bin/docker run -P --env-file=/etc/atemporal-worker --name atemporal-worker <%= image %>
         ExecStop=/usr/bin/docker stop atemporal-worker

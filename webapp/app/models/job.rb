@@ -2,10 +2,13 @@ class Job < ActiveRecord::Base
   include AASM
   include JobStateMachineActions
 
-  has_many :instances
+  before_save :default_values
+  has_many :instances, dependent: :destroy
+  
+  validates :callback_server, presence: true
   validates :image, {
     presence: true, 
-    format: { with: /\A[a-zA-Z0-9-_.\/]+\z/, message: "only allows /\A[a-z0-9-_.\/]+\z/" }
+    format: { with: /\A[a-zA-Z0-9\-_.:\/]+\z/, message: "only allows /\\A[a-z0-9\-_.:\\/]+\\z/" }
   }
 
   scope :create_and_schedule, ->(params) do
@@ -30,13 +33,17 @@ class Job < ActiveRecord::Base
       transitions from: :scheduled, to: :warming, after: :execute_current_job
     end
 
-    event :execute do
+    event :running do
       transitions from: :warming, to: :running, after: :execute_current_job
     end
   end
 
-  def time
-    return @time if @time.present?
-    Time.now
+  def formatted_callback_server
+    "#{callback_server}/jobs/#{id}/callback.json"
   end
+
+  private
+    def default_values
+      @time = Time.now if @time.blank?
+    end
 end
