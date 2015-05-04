@@ -20,13 +20,13 @@ module JobStateMachineActions
       self.instances.create!(result.collect{|current| { aws_id: current.id }})
     end
 
-    def client
-      Aws::EC2::Resource.new
-    end
-
     def build_user_data
       content = open(Rails.root.join('config/worker-cloud-config.yml')).read
       parser = ERB.new(content)
       Base64.encode64(parser.result(binding))
+    end
+
+    def client
+      Aws::EC2::Resource.new
     end
 end

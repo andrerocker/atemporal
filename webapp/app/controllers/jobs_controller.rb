@@ -3,7 +3,7 @@ class JobsController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
 
   def home
-    render text: "see -> github.com/andrerocker/atemporal :p"
+    render json: { message: "see -> github.com/andrerocker/atemporal :p" }
   end
 
   def index
@@ -38,6 +38,14 @@ class JobsController < ApplicationController
     end
   end
 
+  def running
+    respond_to do |format|
+      format.json do
+        render json: Job.find(params[:id]).tap { |job| job.running! }
+      end
+    end
+  end
+
   private
     def not_found
       respond_to do |format|
@@ -56,6 +64,6 @@ class JobsController < ApplicationController
     end
 
     def job_params
-      params.permit(:image, :time, :payload)
+      params.permit(:image, :time, :payload).merge({ callback_server: request.base_url })
     end
 end
