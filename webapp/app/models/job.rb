@@ -48,7 +48,7 @@ class Job < ActiveRecord::Base
 
   private
     def default_values
-      @time = Time.now if @time.blank?
+      self.time = Time.now if @time.blank?
     end
 
     def service
