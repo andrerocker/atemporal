@@ -1,6 +1,6 @@
 #!/bin/bash
 
 pushd /var/www/atemporal
-  bundle exec rake db:setup
+  bundle exec rake db:migrate
   bundle exec foreman start
 popd
