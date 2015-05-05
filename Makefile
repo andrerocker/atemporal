@@ -3,11 +3,14 @@ package-bootstrap:
 	docker build -t atemporal/builder devops/bricky/containers/images/builder
 
 package-builder:
-	docker-compose -p atemporal -f devops/bricky/atemporal-builder.yml up 
+	docker-compose -p atemporal -f devops/bricky/atemporal-builder.yml run builder /scripts/builder
 	docker build -t atemporal/runtime devops/bricky/containers/images/runtime
 
 package-runtime:
-	docker-compose -p atemporal -f devops/bricky/atemporal-runtime.yml up
+	docker-compose -p atemporal -f devops/bricky/atemporal-runtime.yml run \
+		-e AWS_REGION=us-west-1 -e AWS_IMAGE_ID=ami-4df91b09 -e AWS_INSTANCE_TYPE=t1.micro \
+		-e AWS_KEY_NAME=atemporal -e AWS_ACCESS_KEY=$(shell head -1 .credentials) \
+		-e AWS_SECRET_ACCESS_KEY=$(shell tail -1 .credentials) runtime /bin/bash
 
 package-registry:
 	docker tag -f atemporal/runtime $(shell cat .docker-username)/atemporal
