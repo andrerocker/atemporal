@@ -4,19 +4,14 @@ runtime:
   ports:
     - 8080:80
   links:
-    - redis
     - postgresql
   volumes:
     - containers/scripts:/scripts
     - containers/tmp/build:/build
   environment:
     - RAILS_ENV=production
-    - REDIS_URL=redis://redis:6379
     - DATABASE_URL=postgres://locaweb:locaweb@postgresql/atemporal_production
     - SECRET_KEY_BASE=c39362cda691f8394182f72c0c5b02bb6da54a9be6e374e948a7672db636de4e284a2e0f6dbe16b92f885d95e8075b2cfbcadc31dd2b4dd3e94eaac8711e1b3e
-
-redis:
-  image: locaweb/redis
 
 postgresql:
   image: locaweb/postgresql
