@@ -1,6 +1,6 @@
 class Job < ActiveRecord::Base
   include AASM
-  include JobStateMachineActions
+  include JobRepository
 
   before_save :default_values
   has_many :instances, dependent: :destroy

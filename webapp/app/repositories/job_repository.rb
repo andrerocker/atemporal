@@ -1,4 +1,4 @@
-module JobStateMachineActions
+module JobRepository
   def schedule_current_job
     RunnerJob.set(wait_until: self.time).perform_later(self.id)
   end
