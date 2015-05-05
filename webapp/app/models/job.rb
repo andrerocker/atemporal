@@ -1,6 +1,5 @@
 class Job < ActiveRecord::Base
   include AASM
-  include JobRepository
 
   before_save :default_values
   has_many :instances, dependent: :destroy
@@ -10,6 +9,10 @@ class Job < ActiveRecord::Base
     presence: true, 
     format: { with: /\A[a-zA-Z0-9\-_.:\/]+\z/, message: "only allows /\\A[a-z0-9\-_.:\\/]+\\z/" }
   }
+
+  delegate :enqueue_service, to: :service
+  delegate :prepare_service, to: :service
+  delegate :destroy_service, to: :service
 
   scope :create_and_schedule, ->(params) do
     create!(params).tap { |job| job.schedule! }
@@ -23,11 +26,11 @@ class Job < ActiveRecord::Base
     state :finished
 
     event :schedule do
-      transitions from: :created, to: :scheduled, after: :schedule_current_job
+      transitions from: :created, to: :scheduled, after: :enqueue_service
     end
 
     event :prepare do
-      transitions from: :scheduled, to: :warming, after: :execute_current_job
+      transitions from: :scheduled, to: :warming, after: :prepare_service
     end
 
     event :running do
@@ -35,7 +38,7 @@ class Job < ActiveRecord::Base
     end
 
     event :finished do
-      transitions from: :running, to: :finished, after: :destroy_job_runtime
+      transitions from: :running, to: :finished, after: :destroy_service
     end
   end
 
@@ -46,5 +49,9 @@ class Job < ActiveRecord::Base
   private
     def default_values
       @time = Time.now if @time.blank?
+    end
+
+    def service
+      @service ||= JobService.new(self)
     end
 end
