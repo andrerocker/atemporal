@@ -8,9 +8,11 @@ package-builder:
 
 package-runtime:
 	docker-compose -p atemporal -f devops/bricky/atemporal-runtime.yml run \
+	       	-e AWS_ACCESS_KEY=$(shell head -1 .credentials) \
+		-e AWS_SECRET_ACCESS_KEY=$(shell tail -1 .credentials) \
 		-e AWS_REGION=us-west-1 -e AWS_IMAGE_ID=ami-4df91b09 -e AWS_INSTANCE_TYPE=t1.micro \
-		-e AWS_KEY_NAME=atemporal -e AWS_ACCESS_KEY=$(shell head -1 .credentials) \
-		-e AWS_SECRET_ACCESS_KEY=$(shell tail -1 .credentials) runtime /bin/bash
+		-e AWS_KEY_NAME=atemporal -e AWS_SECURITY_GROUP=atemporal-worker \
+	       	--service-ports runtime /start
 
 package-registry:
 	docker tag -f atemporal/runtime $(shell cat .docker-username)/atemporal
