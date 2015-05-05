@@ -16,7 +16,7 @@ ou que trariam uma solução menos complicada (pelo menos no meu ponto de vista)
 Tecnologias utilizadas: Ruby e Rails, Docker, Docker Compose, PostgreSQL, Terraform, Docker Hub, Make,
 AWS, CoreOS.
 
-## proparando seu workspace
+## preparando seu workspace
 
 Antes de iniciar você vai precisar instalar algumas coisas e configurar outras, vamos la:
 
