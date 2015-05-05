@@ -19,11 +19,13 @@ class JobsController < ApplicationController
   end
 
   def running
-    render json: resolve_job.tap { |job| job.running! }
+    resolve_job.running!
+    render status: 204, nothing: true
   end
 
   def finished
-    render json: resolve_job.tap { |job| job.finished! }
+    resolve_job.finished!
+    render status: 204, nothing: true
   end
 
   private
