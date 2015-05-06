@@ -1,6 +1,7 @@
 class JobsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
+  rescue_from AASM::InvalidTransition, with: :unprocessable_entity
 
   def home
     render json: { message: "see -> github.com/andrerocker/atemporal :p" }
@@ -34,7 +35,7 @@ class JobsController < ApplicationController
     end
 
     def unprocessable_entity(exception)
-      render status: 422, json: {error: exception.message}
+      render status: 422, json: { error: exception.message }
     end
 
     def resolve_job
