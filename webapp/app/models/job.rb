@@ -38,7 +38,7 @@ class Job < ActiveRecord::Base
     end
 
     event :finished do
-      transitions from: :running, to: :finished, after: :destroy_service
+      transitions from: [:warming, :running], to: :finished, after: :destroy_service
     end
   end
 

@@ -37,7 +37,7 @@ RSpec.describe Job, type: :model do
       expect(current.state).to eql "scheduled"
     end
 
-    it "should responde to state machine events" do
+    it "should responds to state machine events" do
       expect(subject).to respond_to(:schedule!)
       expect(subject).to respond_to(:prepare!)
       expect(subject).to respond_to(:running!)
@@ -47,50 +47,40 @@ RSpec.describe Job, type: :model do
 
   context "transion job states" do
     it "from created to scheduled" do
-      allow_any_instance_of(subject.class).to receive(:enqueue_service)
-
       current = subject.class.create(params)
       expect(current.state).to eql "created"
+      expect(current).to receive(:enqueue_service)
 
       current.schedule!
       expect(current.state).to eql "scheduled"
     end
 
     it "from scheduled to warming" do
-      allow_any_instance_of(subject.class).to receive(:enqueue_service)
-      allow_any_instance_of(subject.class).to receive(:prepare_service)
-
-      current = subject.class.create(params)
-      current.schedule!
-      expect(current.state).to eql "scheduled"
+      current = FactoryGirl.create :job, state: "scheduled"
+      expect(current).to receive(:prepare_service)
 
       current.prepare!
       expect(current.state).to eql "warming"
     end
 
     it "from warming to running" do
-      allow_any_instance_of(subject.class).to receive(:enqueue_service)
-      allow_any_instance_of(subject.class).to receive(:prepare_service)
-
-      current = subject.class.create(params)
-      current.schedule!
-      current.prepare!
-      expect(current.state).to eql "warming"
+      current = FactoryGirl.create :job, state: "warming"
 
       current.running!
       expect(current.state).to eql "running"
     end
 
-    it "from running to finished" do
-      allow_any_instance_of(subject.class).to receive(:enqueue_service)
-      allow_any_instance_of(subject.class).to receive(:prepare_service)
-      allow_any_instance_of(subject.class).to receive(:destroy_service)
+    it "from warming to finished" do
+      current = FactoryGirl.create :job, state: "warming"
+      expect(current).to receive(:destroy_service)
 
-      current = subject.class.create(params)
-      current.schedule!
-      current.prepare!
-      current.running!
-      expect(current.state).to eql "running"
+      current.finished!
+      expect(current.state).to eql "finished"
+    end
+
+    it "from running to finished" do
+      current = FactoryGirl.create :job, state: "running"
+      expect(current).to receive(:destroy_service)
 
       current.finished!
       expect(current.state).to eql "finished"
