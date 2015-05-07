@@ -26,7 +26,7 @@ o projeto em um container. Partindo dai nenhuma escolha seria mais natural do qu
 sistema base para rodar toda a aplicação.
 
 CoreOS: No meu ponto de vista foi uma decisão totalmente acertada porque o cloud-config.yml traz tudo que 
-preciso para realizar o deploy do projeto da forma mais simples e sofisticada possivel, no primeiro momento fiz um setup para utilizar fleet e etcd, no segundo momento optei por desligar esses recursos e utilizar unicamente o systemd.
+preciso para realizar o deploy do projeto da forma mais simples e sofisticada possivel, no primeiro momento fiz um setup para utilizar fleet e etcd, no segundo momento optei por desligar esses recursos e utilizar unicamente o systemd. CoreOS tambem se mostrou uma excelente escolha para ser a plataforma de execução das tasks pois novamente o cloud-config.yml trouxe de graça certas facilidades que eu outro cenario seria chato de implementar, por exemplo o suporte a "rederizar" arquivos de configuração inline com encoding em base64.
 
 Tecnologias utilizadas: Ruby e Rails, Docker, Docker Compose, PostgreSQL, Terraform, Docker Hub, Make,
 AWS, CoreOS.
