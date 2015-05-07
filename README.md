@@ -19,6 +19,8 @@ e sem muito esforço.
 
 Topologia: 1 load balancer, 3 instancias ec2 abaixo do balancer, 1 servidor de banco de dados (postgresql), 1 grupo de segurança permitindo acesso apenas a porta 80 e 22 nos servidores principais, 1 grupo de segurança com tudo liberado para ser utilizado na instancia de jobs a serem executados.
 
+![Terraform](https://raw.githubusercontent.com/andrerocker/atemporal/master/devops/others/graph.png)
+
 Servidores: Inicialmente estava pensando em fazer um aplicação empacotada para debian e utilizar um Ubuntu 14.04,
 ou até mesmo um Debian Wheezy como server, no entanto como havia o trabalho de realizar o deploy do processo
 a ser "schedulado" como container acabei voltando atras na ideia do pacote debian e optei por empacotar
