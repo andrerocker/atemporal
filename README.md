@@ -13,6 +13,16 @@ Pensei em diferentes modelos de arquitetura e tecnologias para resolver esse pro
 meu ultimos dias foram muito corridos e então acabei optando por tecnologias que tenho mais familiaridade,
 ou que trariam uma solução menos complicada (pelo menos no meu ponto de vista)
 
+Terraform: Como solução para automatizar o provisionamento da infraestrutura optei por utilizar o Terraform,
+foi a minha primeira experiencia com a ferramenta, apesar de algumas "limitações" funcionou conforme o esperado
+e sem muito esforço.
+
+Servidores: Inicialmente estava pensando em fazer um aplicação empacotada para debian e utilizar um Ubuntu 14.04,
+ou até mesmo um Debian Wheezy como server, no entanto como havia o trabalho de realizar o deploy do processo
+a ser "schedulado" como container acabei voltando atras na ideia do pacote debian e optei por empacotar
+o projeto em um container. Partindo dai nenhuma escolha seria mais natural do que utilizar o CoreOS como 
+sistema base para rodar toda a aplicação.
+
 Tecnologias utilizadas: Ruby e Rails, Docker, Docker Compose, PostgreSQL, Terraform, Docker Hub, Make,
 AWS, CoreOS.
 
