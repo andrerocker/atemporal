@@ -20,12 +20,14 @@ AWS, CoreOS.
 
 Antes de iniciar você vai precisar instalar algumas coisas e configurar outras, vamos la:
 
-- Você deve possuir uma chave publica RSA em ~/.ssh/id_rsa.pub (não pode ser DSA (coisa da amazon))
-- No home do projeto você deve criar um arquivo chamado .credentials, duas linhas: chave e token da aws
-- No home do projeto você deve criar um arquivo chamado .docker-username, uma linha, com seu conta do dockerhub
+```
+- Você deve possuir uma chave publica RSA em ~/.ssh/id_rsa.pub
+- Criar um arquivo chamado .credentials, com duas linhas: chave e token da aws
+- Criar um arquivo chamado .docker-username, com uma linha, com seu conta do dockerhub
 - Certifique-se de que tem instalado as seguintes ferramentas: 
-	- local para desenvolvimento: rvm, postgresql
+	- local para desenvolvimento: rvm (ruby 2.2.2), postgresql
 	- local para deploy: make, docker, docker-compose, terraform 
+```
 
 ## estrutura do projeto
 
