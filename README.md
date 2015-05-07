@@ -28,6 +28,10 @@ Antes de iniciar você vai precisar instalar algumas coisas e configurar outras,
 	- local para desenvolvimento: rvm (ruby 2.2.2), postgresql
 	- local para deploy: make, docker, docker-compose, terraform 
 ```
+Como o projeto acabou usando uma serie de comandos e combinações diferentes para executar direferentes atividades
+acabei optando por utilizar o make como porta de entreda para execução das principais operações do projeto.
+
+Como por exemplo: Construir imagens base para build e execução local, processo para build e execução, processo de upload de container para o docker registry, processo para start e stop de infraestrutura, e deploy.
 
 ## estrutura do projeto
 
