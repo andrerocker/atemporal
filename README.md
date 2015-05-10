@@ -99,6 +99,9 @@ package-bootstrap:
 
 *para visualizar o script de build e o yml utilizado pelo docker-compose nesse processo de uma olhada [aqui](https://github.com/andrerocker/atemporal/blob/master/devops/bricky/atemporal-builder.yml) e [aqui](https://github.com/andrerocker/atemporal/blob/master/devops/bricky/containers/scripts/builder)*
 
+*a primeira execução pode ser terrivelmente lenta, no entanto as proximas execuções seram extremamente rapidas,
+pois no caminho vou construindo uma serie de caches.*
+
 ```make
 package-builder:
         docker-compose -p atemporal -f devops/bricky/atemporal-builder.yml \
@@ -132,14 +135,17 @@ application-deploy: package-builder package-registry
 Antes de iniciar você vai precisar instalar algumas coisas e configurar outras, vamos la:
 
 ```
-- Você deve possuir uma chave publica RSA em ~/.ssh/id_rsa.pub
+- realize o clone do projeto :p (git clone https://github.com/andrerocker/atemporal.git)
+- Você deve possuir uma chave publica RSA em ~/.ssh/id_rsa.pub (ssh-keygen -t rsa)
 - Criar um arquivo chamado .credentials, com duas linhas: chave e token da aws
 - Criar um arquivo chamado .docker-username, com uma linha, com seu conta do dockerhub
 - Certifique-se de que tem instalado as seguintes ferramentas: 
-	- local para desenvolvimento: rvm (ruby 2.2.2), postgresql
 	- local para deploy: make, docker, docker-compose, terraform 
+	- local para desenvolvimento: rvm (ruby 2.2.2), bundle, postgresql
+- Certifique-se de que seu usuario local tem acesso ao daemon docker (usermod -a -G docker <seu usuario>
+- Certifique-se de que as credenciais da AWS tem as permissões necessaria para criar os recursos necessarios
 ```
-Como o projeto acabou usando uma serie de comandos e combinações diferentes para executar direferentes atividades
-acabei optando por utilizar o make como porta de entreda para execução das principais operações do projeto.
 
-Como por exemplo: Construir imagens base para build e execução local, processo para build e execução, processo de upload de container para o docker registry, processo para start e stop de infraestrutura, e deploy.
+Apos terminar as configurações acima você ja vai estar apto a executar um deploy completo da aplicação, para isso basta executar um simples: ```make application-fullstack-deploy``` paciencia, pois primeira vez demorar vai demorar um pouco, pois vamos buildar todas as imagens necessarias, vamos buildar a aplicação, envia-la ao registry, provisionar a infraestrutura (o banco de dados é que mais demora) e ao termino da execução você vai ter um output parecido com o seguinte:
+
+
