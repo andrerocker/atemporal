@@ -149,7 +149,7 @@ Antes de iniciar você vai precisar instalar algumas coisas e configurar outras,
 
 Apos terminar as configurações acima você ja vai estar apto a executar um deploy completo da aplicação, para isso basta executar um simples: ```make application-fullstack-deploy``` paciencia, pois primeira vez demorar vai demorar um pouco, pois vamos buildar todas as imagens necessarias, vamos buildar a aplicação, envia-la ao registry, provisionar a infraestrutura (o banco de dados é que mais demora) e ao termino da execução você vai ter um output parecido com o seguinte:
 
-*Os builds consecutivos vão ser **extremamente** mais rapidos, pois no caminho eu crio alguns caches, inclusive um especifico para as gems utilizadas no projeto.*
+*Os builds consecutivos vão ser extremamente mais rapidos, pois no caminho eu crio alguns caches, inclusive um especifico para as gems utilizadas no projeto.*
 
 ```
 Outputs:
@@ -160,3 +160,5 @@ Outputs:
   		 	ec2-54-215-55-160.us-west-1.compute.amazonaws.com, 
   		 	ec2-54-219-16-146.us-west-1.compute.amazonaws.com
 ```
+
+*apartir daqui você ja pode conectar no hostname do loadbalancer e executar suas chamadas a API, note que existe a possibilidade dos serviços ainda estarem inicializando então pode ser legal fazer um request no /*
