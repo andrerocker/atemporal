@@ -1,11 +1,13 @@
 ## andrerocker, atemporal
 
 A prosposta dessa PoC é resolver o desafio passado por email, o enunciado propunha a implementação
-de um sistema executor de processos duradouros baseados em um container docker, agendados para executar
+de um sistema executor de processos duradouros baseados em um container docker agendados para executar
 em um horario previamente expecificado em conjunto a um payload baseado em variaveis de ambiente.
 
+```
 Uma condição pre estabelecida é a de que o processo sempre deve ser executado em uma nova instancia
-EC2, que ao termino do processo tambem deve ser desprovionada.
+EC2, e que ao termino do processo tambem deve ser desprovionada.
+```
 
 ## a implementação
 
@@ -14,21 +16,22 @@ meu ultimos dias foram muito corridos e então acabei optando por tecnologias qu
 ou que trariam uma solução menos complicada (pelo menos no meu ponto de vista)
 
 Terraform: Como solução para automatizar o provisionamento da infraestrutura optei por utilizar o Terraform,
-foi a minha primeira experiencia com a ferramenta, apesar de algumas "limitações" funcionou conforme o esperado
-e sem muito esforço.
+foi a minha primeira experiencia com a ferramenta, apesar de algumas "limitações" funcionou conforme o esperado.
 
-Topologia: 1 load balancer, 3 instancias ec2 abaixo do balancer, 1 servidor de banco de dados (postgresql), 1 grupo de segurança permitindo acesso apenas a porta 80 e 22 nos servidores principais, 1 grupo de segurança com tudo liberado para ser utilizado na instancia de jobs a serem executados.
+Topologia: 1 load balancer, 3 instancias ec2 abaixo do balancer, 1 servidor de banco de dados (postgresql), 1 grupo de segurança permitindo acesso apenas a porta 80 e 22 nos servidores principais, 1 grupo de segurança com tudo liberado para ser utilizado na instancia de jobs a serem executados, segue abaixo o desenho exportado pelo proprio terraform.
 
 ![Terraform](https://raw.githubusercontent.com/andrerocker/atemporal/master/devops/others/graph.png)
 
 Servidores: Inicialmente estava pensando em fazer um aplicação empacotada para debian e utilizar um Ubuntu 14.04,
-ou até mesmo um Debian Wheezy como server, no entanto como havia o trabalho de realizar o deploy do processo
+ou até mesmo um Debian Wheezy, no entanto como havia o trabalho de realizar o deploy do processo
 a ser "schedulado" como container acabei voltando atras na ideia do pacote debian e optei por empacotar
 o projeto em um container. Partindo dai nenhuma escolha seria mais natural do que utilizar o CoreOS como 
 sistema base para rodar toda a aplicação.
 
-CoreOS: No meu ponto de vista foi uma decisão totalmente acertada porque o cloud-config.yml traz tudo que 
-preciso para realizar o deploy do projeto da forma mais simples e sofisticada possivel, no primeiro momento fiz um setup para utilizar fleet e etcd, no segundo momento optei por desligar esses recursos e utilizar unicamente o systemd. CoreOS tambem se mostrou uma excelente escolha para ser a plataforma de execução das tasks pois novamente o cloud-config.yml trouxe de graça certas facilidades que eu outro cenario seria chato de implementar, por exemplo o suporte a "rederizar" arquivos de configuração inline com encoding em base64.
+_CoreOS:_ No meu ponto de vista foi uma decisão totalmente acertada porque o cloud-config.yml traz tudo que 
+preciso para realizar o deploy do projeto da forma mais simples e sofisticada, no primeiro momento fiz um setup para utilizar fleet e etcd, no segundo momento optei por desligar esses recursos e utilizar unicamente o systemd. 
+
+CoreOS tambem se mostrou uma excelente escolha para ser a plataforma de execução das tasks pois novamente o cloud-config.yml trouxe de graça certas facilidades que eu outro cenario seria chato de implementar, por exemplo o suporte a "rederizar" arquivos de configuração inline com encoding em base64.
 
 ```yaml
 #cloud-config
