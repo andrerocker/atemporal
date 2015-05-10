@@ -4,10 +4,8 @@ A prosposta dessa PoC é resolver o desafio passado por email, o enunciado propu
 de um sistema executor de processos duradouros baseados em um container docker agendados para executar
 em um horario previamente expecificado em conjunto a um payload baseado em variaveis de ambiente.
 
-```
-Uma condição pre estabelecida é a de que o processo sempre deve ser executado em uma nova instancia
-EC2, e que ao termino do processo tambem deve ser desprovionada.
-```
+*Uma condição pre estabelecida é a de que o processo sempre deve ser executado em uma nova instancia
+EC2, e que ao termino do processo tambem deve ser desprovionada.*
 
 ## a implementação
 
@@ -48,6 +46,13 @@ write_files:
 
 ```
 
+**Implementação:** Acabei realizando a implementação da API utilizando Ruby, Rails e um processador de jobs assincronos simples que permitisse o schedule de operações de forma "segura", vou escrever mais detalhes sobre a implementação em topicos individuais abaixo:
+
+*API:* Optei por utilizar o Rails por uma possivel simplicidade, e por estar mais familizado com suas gems e ecosistema, nesse ponto, itens importantes que considero que devem ser citados é que utilizei uma gem para maquinas de estado, uma pra criar representers dos objetos a serem exportados pela API, e postgresql como banco de dados.
+
+*Scheduler:* Para resolver o problema de scheduler, em um primeiro momento optei por utilizar o Sidekiq, no entanto sempre considei o Redis uma escolha errada pra ser backend de filas, sendo assim dei rollback na ideia e optei por utilizar o velho Delayed Jobs com backend no banco de dados ja provisionado pela aplicação.
+
+*Http:* Quando a minha ideia ainda era usar pacotes, por algum motivo estava pensando em servir a aplicação com um proxy reverso para o puma utilizando um nginx, no entanto como a aplicação é exclusivamente uma API acredito que não faz sentido algum ter um "atravesador" no meio do request, então no novo desenho utilizando container optei por deixar o puma de cara para o ELB na porta 80.
 
 Tecnologias utilizadas: Ruby e Rails, Docker, Docker Compose, PostgreSQL, Terraform, Docker Hub, Make,
 AWS, CoreOS.
