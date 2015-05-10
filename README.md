@@ -58,8 +58,23 @@ write_files:
 
 *Make*: Uma coisa que você vai notar tambem é que estou utilizando o make como porta de entrada pra execução das principais atividades da aplicação (com exceção de start e stop de processos locais para desenvolvimento), como estamos usando um diversidade grande de ferramentas na aplicação fica complicado decorar cada comando, e até mesmo impraticavel executalos passando um monte de parametro na mão, sendo assim o make foi uma solução simples e pratica pra resolver o "problema"
 
-Tecnologias utilizadas: Ruby e Rails, Docker, Docker Compose, PostgreSQL, Terraform, Docker Hub, Make,
-AWS, CoreOS.
+**Pipeline de Deploy:** O projeto deve ser empacotado em um container pronto para a execução, e deve depender unica e exclusivamente de apenas algumas variaveis de ambiente, sendo assim o pipeline pra deploy acabou sendo o seguinte: build local, publish por registry e start do processo, vou descrever cada um desses passos abaixo:
+
+*Optei por ter basicamente 3 images docker do projeto, uma com a finalidade exclusiva de fazer build, com ferramentas proprias para compilação e libs expecificas para tal. Outra, totalmente exuta exclusivamente para runtime, e uma base com coisas em comum para as duas primeiras imagens*
+
+```make
+package-bootstrap:
+        docker build -t atemporal/coreimg devops/bricky/containers/images/coreimg
+        docker build -t atemporal/builder devops/bricky/containers/images/builder
+```
+
+*build:* Nesse passo utilizo o docker-compose para realizar o build do projeto com a imagem de build gerada durante o processo  ```package-bootstrap``` (ilustrado acima), o que o docker compose faz é basicamente montar o diretorio atual dentro do container de build, vendorizar a aplicação ```bundle install --deployment``` e dispobiliza-la como um arquivo tar em um diretorio tambem montado dentro do container, ao termino desse processo realizo o build da imagem de runtime com o ultimo codigo da aplicação realizado.
+
+```
+package-builder:
+        docker-compose -p atemporal -f devops/bricky/atemporal-builder.yml run builder /scripts/builder
+        docker build -t atemporal/runtime devops/bricky/containers/images/runtime
+```
 
 ## preparando seu workspace
 
