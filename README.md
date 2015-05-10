@@ -16,6 +16,33 @@ ou que trariam uma solução menos complicada (pelo menos no meu ponto de vista)
 **Terraform:** Como solução para automatizar o provisionamento da infraestrutura optei por utilizar o Terraform,
 foi a minha primeira experiencia com a ferramenta, apesar de algumas "limitações" funcionou conforme o esperado.
 
+*para realizar esse provisionamento acabei escrevendo duas tasks make para auxiliar na atividade, vou ilustrar
+os codigos abaixo*
+
+*setup da infra:* 
+
+```make
+servers-bootstrap:
+	cd devops/terraform; terraform apply \
+		-var "public_key=$(shell cat ~/.ssh/id_rsa.pub)" \
+		-var "access_key=$(shell head -1 .credentials)" \
+		-var "secret_key=$(shell tail -1 .credentials)" \
+		-var "docker_username=$(shell cat .docker-username)" \
+		-var "cluster_discovery=$(shell curl -s http://discovery.etcd.io/new)"
+```
+
+*shutdown infra:* 
+
+```make
+servers-terminate:
+	cd devops/terraform; terraform destroy -force \
+		-var "public_key=$(shell cat ~/.ssh/id_rsa.pub)" \
+		-var "access_key=$(shell head -1 .credentials)" \
+		-var "secret_key=$(shell tail -1 .credentials)" \
+		-var "docker_username=1337" \
+		-var "cluster_discovery=1337"
+```
+
 **Topologia:** 1 load balancer, 3 instancias ec2 abaixo do balancer, 1 servidor de banco de dados (postgresql), 1 grupo de segurança permitindo acesso apenas a porta 80 e 22 nos servidores principais, 1 grupo de segurança com tudo liberado para ser utilizado na instancia de jobs a serem executados, segue abaixo o desenho exportado pelo proprio terraform.
 
 ![Terraform](https://raw.githubusercontent.com/andrerocker/atemporal/master/devops/others/graph.png)
@@ -79,12 +106,21 @@ package-builder:
         docker build -t atemporal/runtime devops/bricky/containers/images/runtime
 ```
 
-*publish:* Uma vez feito o build da aplicação então publicamos o novo container para o docker-registry, no caso de PoC o docker registry publico, conforme a task abaixo:
+*publish:* Uma vez feito o build da aplicação então publicamos o novo container para o docker-registry, no caso da PoC o docker registry publico, conforme a task abaixo:
+
+*note que nesse momento eu não pensei em versionamento*
 
 ```make
 package-registry:
         docker tag -f atemporal/runtime $(shell cat .docker-username)/atemporal
         docker push $(shell cat .docker-username)/atemporal
+```
+
+*deploy:* Feito tudo isso agora é possivel realizar o deploy da aplicação, pra isso basta executar a task ```application-deploy``` que por padrão já chama as tasks ```package-builder```, ```package-registry```
+
+```make
+application-deploy: package-builder package-registry
+	devops/deploy
 ```
 
 ## preparando seu workspace
