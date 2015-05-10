@@ -79,6 +79,14 @@ package-builder:
         docker build -t atemporal/runtime devops/bricky/containers/images/runtime
 ```
 
+*publish:* Uma vez feito o build da aplicação então publicamos o novo container para o docker-registry, no caso de PoC o docker registry publico, conforme a task abaixo:
+
+```make
+package-registry:
+        docker tag -f atemporal/runtime $(shell cat .docker-username)/atemporal
+        docker push $(shell cat .docker-username)/atemporal
+```
+
 ## preparando seu workspace
 
 Antes de iniciar você vai precisar instalar algumas coisas e configurar outras, vamos la:
