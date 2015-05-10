@@ -15,23 +15,27 @@ Pensei em diferentes modelos de arquitetura e tecnologias para resolver esse pro
 meu ultimos dias foram muito corridos e então acabei optando por tecnologias que tenho mais familiaridade,
 ou que trariam uma solução menos complicada (pelo menos no meu ponto de vista)
 
-Terraform: Como solução para automatizar o provisionamento da infraestrutura optei por utilizar o Terraform,
+**Terraform:** Como solução para automatizar o provisionamento da infraestrutura optei por utilizar o Terraform,
 foi a minha primeira experiencia com a ferramenta, apesar de algumas "limitações" funcionou conforme o esperado.
 
-Topologia: 1 load balancer, 3 instancias ec2 abaixo do balancer, 1 servidor de banco de dados (postgresql), 1 grupo de segurança permitindo acesso apenas a porta 80 e 22 nos servidores principais, 1 grupo de segurança com tudo liberado para ser utilizado na instancia de jobs a serem executados, segue abaixo o desenho exportado pelo proprio terraform.
+**Topologia:** 1 load balancer, 3 instancias ec2 abaixo do balancer, 1 servidor de banco de dados (postgresql), 1 grupo de segurança permitindo acesso apenas a porta 80 e 22 nos servidores principais, 1 grupo de segurança com tudo liberado para ser utilizado na instancia de jobs a serem executados, segue abaixo o desenho exportado pelo proprio terraform.
 
 ![Terraform](https://raw.githubusercontent.com/andrerocker/atemporal/master/devops/others/graph.png)
 
-Servidores: Inicialmente estava pensando em fazer um aplicação empacotada para debian e utilizar um Ubuntu 14.04,
+**Servidores:** Inicialmente estava pensando em fazer um aplicação empacotada para debian e utilizar um Ubuntu 14.04,
 ou até mesmo um Debian Wheezy, no entanto como havia o trabalho de realizar o deploy do processo
 a ser "schedulado" como container acabei voltando atras na ideia do pacote debian e optei por empacotar
 o projeto em um container. Partindo dai nenhuma escolha seria mais natural do que utilizar o CoreOS como 
 sistema base para rodar toda a aplicação.
 
-_CoreOS:_ No meu ponto de vista foi uma decisão totalmente acertada porque o cloud-config.yml traz tudo que 
+**CoreOS:** No meu ponto de vista foi uma decisão totalmente acertada porque o cloud-config.yml traz tudo que 
 preciso para realizar o deploy do projeto da forma mais simples e sofisticada, no primeiro momento fiz um setup para utilizar fleet e etcd, no segundo momento optei por desligar esses recursos e utilizar unicamente o systemd. 
 
 CoreOS tambem se mostrou uma excelente escolha para ser a plataforma de execução das tasks pois novamente o cloud-config.yml trouxe de graça certas facilidades que eu outro cenario seria chato de implementar, por exemplo o suporte a "rederizar" arquivos de configuração inline com encoding em base64.
+
+*Abaixo está um exemplo da solução utilizada para resolver o problema da injeção de variaveis de ambiente
+no processo a ser schedulado, com essa tecnica eu bloquei de forma simples e eficaz qualquer tentiva de injeção
+de codigo arbitrario que possa quebrar meu fluxo de provisionamento, pra ver o cloud-config completo utilizado no worker [clique aqui](https://github.com/andrerocker/atemporal/blob/master/webapp/config/worker-cloud-config.yml)*
 
 ```yaml
 #cloud-config
@@ -43,7 +47,7 @@ write_files:
       QU5EUkU9Zm9kYW8K
 
 ```
-[Exemplo Real](https://github.com/andrerocker/atemporal/blob/master/webapp/config/worker-cloud-config.yml)
+
 
 Tecnologias utilizadas: Ruby e Rails, Docker, Docker Compose, PostgreSQL, Terraform, Docker Hub, Make,
 AWS, CoreOS.
