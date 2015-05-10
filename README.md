@@ -151,3 +151,12 @@ Apos terminar as configurações acima você ja vai estar apto a executar um dep
 
 *Os builds consecutivos vão ser **extremamente** mais rapidos, pois no caminho eu crio alguns caches, inclusive um especifico para as gems utilizadas no projeto.*
 
+```
+Outputs:
+
+  database     = atemporal-rds.c776vkpzyr9e.us-west-1.rds.amazonaws.com
+  loadbalancer = atemporal-1388666537.us-west-1.elb.amazonaws.com
+  server       = ec2-184-169-192-107.us-west-1.compute.amazonaws.com,
+  		 	ec2-54-215-55-160.us-west-1.compute.amazonaws.com, 
+  		 	ec2-54-219-16-146.us-west-1.compute.amazonaws.com
+```
