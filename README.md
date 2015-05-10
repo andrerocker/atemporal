@@ -142,10 +142,12 @@ Antes de iniciar você vai precisar instalar algumas coisas e configurar outras,
 - Certifique-se de que tem instalado as seguintes ferramentas: 
 	- local para deploy: make, docker, docker-compose, terraform 
 	- local para desenvolvimento: rvm (ruby 2.2.2), bundle, postgresql
-- Certifique-se de que seu usuario local tem acesso ao daemon docker (usermod -a -G docker <seu usuario>
-- Certifique-se de que as credenciais da AWS tem as permissões necessaria para criar os recursos necessarios
+- Usuario local deve ter acesso ao daemon docker (usermod -a -G docker <seu usuario>
+- Certifique-se de estar logado no dockerhub (caso contrario tera que logar durante o build)
+- As credenciais da AWS devem possuir as permissões necessaria para criar os recursos
 ```
 
 Apos terminar as configurações acima você ja vai estar apto a executar um deploy completo da aplicação, para isso basta executar um simples: ```make application-fullstack-deploy``` paciencia, pois primeira vez demorar vai demorar um pouco, pois vamos buildar todas as imagens necessarias, vamos buildar a aplicação, envia-la ao registry, provisionar a infraestrutura (o banco de dados é que mais demora) e ao termino da execução você vai ter um output parecido com o seguinte:
 
+*Os builds consecutivos vão ser **extremamente** mais rapidos, pois no caminho eu crio alguns caches, inclusive um especifico para as gems utilizadas no projeto.*
 
