@@ -123,6 +123,10 @@ application-deploy: package-builder package-registry
 	devops/deploy
 ```
 
+*fullstack deploy:* Tambem é possivel realizar um deploy partindo totalmente do zero, provisionando toda a infraestrutura necessaria para o projeto, então executar os builder necessarios, publicação e deploy, para isso execute a task ```application-fullstack-deploy```
+
+*as informações passadas acima são apenas para demostrar o que pensei para realizar o processo, vou escrever de forma mais objetiva e simples como fazer uma publicação basica da aplicações nos passos a seguir*
+
 ## preparando seu workspace
 
 Antes de iniciar você vai precisar instalar algumas coisas e configurar outras, vamos la:
