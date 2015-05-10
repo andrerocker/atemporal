@@ -70,9 +70,12 @@ package-bootstrap:
 
 *build:* Nesse passo utilizo o docker-compose para realizar o build do projeto com a imagem de build gerada durante o processo  ```package-bootstrap``` (ilustrado acima), o que o docker compose faz é basicamente montar o diretorio atual dentro do container de build, vendorizar a aplicação ```bundle install --deployment``` e dispobiliza-la como um arquivo tar em um diretorio tambem montado dentro do container, ao termino desse processo realizo o build da imagem de runtime com o ultimo codigo da aplicação realizado.
 
-```
+*para visualizar o script de build e o yml utilizado pelo docker-compose nesse processo de uma olhada [aqui](https://github.com/andrerocker/atemporal/blob/master/devops/bricky/atemporal-builder.yml) e [aqui](https://github.com/andrerocker/atemporal/blob/master/devops/bricky/containers/scripts/builder)*
+
+```make
 package-builder:
-        docker-compose -p atemporal -f devops/bricky/atemporal-builder.yml run builder /scripts/builder
+        docker-compose -p atemporal -f devops/bricky/atemporal-builder.yml \
+        	run builder /scripts/builder
         docker build -t atemporal/runtime devops/bricky/containers/images/runtime
 ```
 
