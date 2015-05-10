@@ -54,10 +54,12 @@ write_files:
 
 *Http:* Quando a minha ideia ainda era usar pacotes, por algum motivo estava pensando em servir a aplicação com um proxy reverso para o puma utilizando um nginx, no entanto como a aplicação é exclusivamente uma API acredito que não faz sentido algum ter um "atravesador" no meio do request, então no novo desenho utilizando container optei por deixar o puma de cara para o ELB na porta 80.
 
+*Estrutura do projeto:* Voce vai notar que a estrutura do projeto esta dividida basicamente em dois diretorios: webapp e devops, optei por esse modelo pra definir claramente a finalidade de cada codebase no projeto ja que agora temos a possibilidade de ter a infraestrutura como codigo, isso é uma coisa simples mas pode trazer um ganho muito grande quando passamos a ter um numero maior de aplicações com esse perfil utilizando tecnologias totalmente diferentes para cada finalidade. 
+
+*Make*: Uma coisa que você vai notar tambem é que estou utilizando o make como porta de entrada pra execução das principais atividades da aplicação (com exceção de start e stop de processos locais para desenvolvimento), como estamos usando um diversidade grande de ferramentas na aplicação fica complicado decorar cada comando, e até mesmo impraticavel executalos passando um monte de parametro na mão, sendo assim o make foi uma solução simples e pratica pra resolver o "problema"
+
 Tecnologias utilizadas: Ruby e Rails, Docker, Docker Compose, PostgreSQL, Terraform, Docker Hub, Make,
 AWS, CoreOS.
-
-*Estrutura do projeto:* Voce vai notar que a estrutura do projeto esta dividida basicamente em dois diretorios: webapp e devops, optei por esse modelo pra definir claramente a finalidade de cada codebase no projeto ja que agora temos a possibilidade de ter a infraestrutura como codigo, isso é uma coisa simples mas pode trazer um ganho muito grande quando passamos a ter um numero maior de aplicações com esse perfil utilizando tecnologias totalmente diferentes para cada finalidade. 
 
 ## preparando seu workspace
 
