@@ -145,6 +145,7 @@ Antes de iniciar você vai precisar instalar algumas coisas e configurar outras,
 - Usuario local deve ter acesso ao daemon docker (usermod -a -G docker <seu usuario>
 - Certifique-se de estar logado no dockerhub (caso contrario tera que logar durante o build)
 - As credenciais da AWS devem possuir as permissões necessaria para criar os recursos
+- O projeto não suporta mais de uma pessoa usar a mesma chave de API ao mesmo tempo
 ```
 
 Apos terminar as configurações acima você ja vai estar apto a executar um deploy completo da aplicação, para isso basta executar um simples: ```make application-fullstack-deploy``` paciencia, pois primeira vez demorar vai demorar um pouco, pois vamos buildar todas as imagens necessarias, vamos buildar a aplicação, envia-la ao registry, provisionar a infraestrutura (o banco de dados é que mais demora) e ao termino da execução você vai ter um output parecido com o seguinte:
@@ -162,3 +163,22 @@ Outputs:
 ```
 
 *apartir daqui você ja pode conectar no hostname do loadbalancer e executar suas chamadas a API, note que existe a possibilidade dos serviços ainda estarem inicializando então pode ser legal fazer um request no /*
+
+*Desenvolvimento:* para realizar modificações sera necessario realizar os seguintes passos:
+
+```
+- rvm install 2.2.2
+- gem install bundler
+- bundle install
+- rake db:create db:migrate
+- rails s
+```
+
+## endpoints da aplicação
+
+Conforme solicitado a aplicação possui alguns endpoints chave, e acabei tomando a liberdade me colacar alguma coisa
+a mais, segue abaixo:
+
+```
+
+```
