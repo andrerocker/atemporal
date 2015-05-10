@@ -57,6 +57,8 @@ write_files:
 Tecnologias utilizadas: Ruby e Rails, Docker, Docker Compose, PostgreSQL, Terraform, Docker Hub, Make,
 AWS, CoreOS.
 
+*Estrutura do projeto:* Voce vai notar que a estrutura do projeto esta dividida basicamente em dois diretorios: webapp e devops, optei por esse modelo pra definir claramente a finalidade de cada codebase no projeto ja que agora temos a possibilidade de ter a infraestrutura como codigo, isso é uma coisa simples mas pode trazer um ganho muito grande quando passamos a ter um numero maior de aplicações com esse perfil utilizando tecnologias totalmente diferentes para cada finalidade. 
+
 ## preparando seu workspace
 
 Antes de iniciar você vai precisar instalar algumas coisas e configurar outras, vamos la:
@@ -73,9 +75,3 @@ Como o projeto acabou usando uma serie de comandos e combinações diferentes pa
 acabei optando por utilizar o make como porta de entreda para execução das principais operações do projeto.
 
 Como por exemplo: Construir imagens base para build e execução local, processo para build e execução, processo de upload de container para o docker registry, processo para start e stop de infraestrutura, e deploy.
-
-## estrutura do projeto
-
-Voce vai notar que a estrutura do projeto esta dividida basicamente em dois diretorios:
-	- webapp: codigo do projeto em si
-	- devops: scripts, e codigo relacionados ao deploy e infraestrutura
