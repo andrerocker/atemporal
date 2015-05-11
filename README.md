@@ -7,7 +7,7 @@ em um horario previamente expecificado em conjunto a um payload baseado em varia
 *Uma condição pre estabelecida é a de que o processo sempre deve ser executado em uma nova instancia
 EC2, e que ao termino do processo tambem deve ser desprovionada.*
 
-## preparando seu workspace
+## tl;dr: preparando seu workspace
 
 Antes de iniciar você vai precisar instalar algumas coisas e configurar outras, vamos la:
 
@@ -63,8 +63,19 @@ DELETE /jobs/:id/callback
 - payload: seu conjunto de variaveis de ambiente encodadas em base64
 ```
 
+*Por favor seja paciente, o primeiro start da aplicação leva um pouco de tempo. (docker pull)*
 
-## a implementação
+*Exemplo simples de schedule de um processo:*
+```bash
+curl -d "image=nginx:1.9" -X POST http://path-to/jobs
+```
+
+*Cancei da brincadeira:* 
+```make
+make servers-terminate
+```
+
+## long; read: a implementação
 
 Pensei em diferentes modelos de arquitetura e tecnologias para resolver esse problema, no entanto esses
 meu ultimos dias foram muito corridos e então acabei optando por tecnologias que tenho mais familiaridade,
