@@ -7,6 +7,50 @@ em um horario previamente expecificado em conjunto a um payload baseado em varia
 *Uma condição pre estabelecida é a de que o processo sempre deve ser executado em uma nova instancia
 EC2, e que ao termino do processo tambem deve ser desprovionada.*
 
+## preparando seu workspace
+
+Antes de iniciar você vai precisar instalar algumas coisas e configurar outras, vamos la:
+
+```
+- realize o clone do projeto :p (git clone https://github.com/andrerocker/atemporal.git)
+- Você deve possuir uma chave publica RSA em ~/.ssh/id_rsa.pub (ssh-keygen -t rsa)
+- Criar um arquivo chamado .credentials, com duas linhas: chave e token da aws
+- Criar um arquivo chamado .docker-username, com uma linha, com seu conta do dockerhub
+- Certifique-se de que tem instalado as seguintes ferramentas: 
+	- local para deploy: make, docker, docker-compose, terraform 
+	- local para desenvolvimento: rvm (ruby 2.2.2), bundle, postgresql
+- Usuario local deve ter acesso ao daemon docker (usermod -a -G docker <seu usuario>
+- Certifique-se de estar logado no dockerhub 
+- As credenciais da AWS devem possuir as permissões necessaria para criar os recursos
+- Nesse momento ainda não é possivel fazer deploys concorrentes na mesma conta
+```
+
+Apos terminar as configurações acima você ja vai estar apto a executar um deploy completo da aplicação, para isso basta executar um simples: ```make application-fullstack-deploy``` paciencia, pois primeira vez demorar vai demorar um pouco, pois vamos buildar todas as imagens necessarias, vamos buildar a aplicação, envia-la ao registry, provisionar a infraestrutura (o banco de dados é que mais demora) e ao termino da execução você vai ter um output parecido com o seguinte:
+
+```
+Outputs:
+
+  database     = atemporal-rds.c776vkpzyr9e.us-west-1.rds.amazonaws.com
+  loadbalancer = atemporal-1388666537.us-west-1.elb.amazonaws.com
+  server       = ec2-184-169-192-107.us-west-1.compute.amazonaws.com,
+  		 	ec2-54-215-55-160.us-west-1.compute.amazonaws.com, 
+  		 	ec2-54-219-16-146.us-west-1.compute.amazonaws.com
+```
+
+*apartir daqui você ja pode conectar no hostname do loadbalancer e executar suas chamadas a API, note que existe a possibilidade dos serviços ainda estarem inicializando então pode ser legal fazer um request no /*
+
+*Os builds consecutivos vão ser extremamente mais rapidos, pois no caminho eu crio alguns caches, inclusive um especifico para as gems utilizadas no projeto.*
+
+## endpoints da aplicação
+
+Conforme solicitado a aplicação possui alguns endpoints chave, e acabei tomando a liberdade me colacar alguma coisa
+a mais, segue abaixo:
+
+```
+
+```
+
+
 ## a implementação
 
 Pensei em diferentes modelos de arquitetura e tecnologias para resolver esse problema, no entanto esses
@@ -130,41 +174,9 @@ application-deploy: package-builder package-registry
 
 *as informações passadas acima são apenas para demostrar o que pensei para realizar o processo, vou escrever de forma mais objetiva e simples como fazer uma publicação basica da aplicações nos passos a seguir*
 
-## preparando seu workspace
+## Desenvolvimento:
 
-Antes de iniciar você vai precisar instalar algumas coisas e configurar outras, vamos la:
-
-```
-- realize o clone do projeto :p (git clone https://github.com/andrerocker/atemporal.git)
-- Você deve possuir uma chave publica RSA em ~/.ssh/id_rsa.pub (ssh-keygen -t rsa)
-- Criar um arquivo chamado .credentials, com duas linhas: chave e token da aws
-- Criar um arquivo chamado .docker-username, com uma linha, com seu conta do dockerhub
-- Certifique-se de que tem instalado as seguintes ferramentas: 
-	- local para deploy: make, docker, docker-compose, terraform 
-	- local para desenvolvimento: rvm (ruby 2.2.2), bundle, postgresql
-- Usuario local deve ter acesso ao daemon docker (usermod -a -G docker <seu usuario>
-- Certifique-se de estar logado no dockerhub (caso contrario tera que logar durante o build)
-- As credenciais da AWS devem possuir as permissões necessaria para criar os recursos
-- O projeto não suporta mais de uma pessoa usar a mesma chave de API ao mesmo tempo
-```
-
-Apos terminar as configurações acima você ja vai estar apto a executar um deploy completo da aplicação, para isso basta executar um simples: ```make application-fullstack-deploy``` paciencia, pois primeira vez demorar vai demorar um pouco, pois vamos buildar todas as imagens necessarias, vamos buildar a aplicação, envia-la ao registry, provisionar a infraestrutura (o banco de dados é que mais demora) e ao termino da execução você vai ter um output parecido com o seguinte:
-
-*Os builds consecutivos vão ser extremamente mais rapidos, pois no caminho eu crio alguns caches, inclusive um especifico para as gems utilizadas no projeto.*
-
-```
-Outputs:
-
-  database     = atemporal-rds.c776vkpzyr9e.us-west-1.rds.amazonaws.com
-  loadbalancer = atemporal-1388666537.us-west-1.elb.amazonaws.com
-  server       = ec2-184-169-192-107.us-west-1.compute.amazonaws.com,
-  		 	ec2-54-215-55-160.us-west-1.compute.amazonaws.com, 
-  		 	ec2-54-219-16-146.us-west-1.compute.amazonaws.com
-```
-
-*apartir daqui você ja pode conectar no hostname do loadbalancer e executar suas chamadas a API, note que existe a possibilidade dos serviços ainda estarem inicializando então pode ser legal fazer um request no /*
-
-*Desenvolvimento:* para realizar modificações sera necessario realizar os seguintes passos:
+Para realizar modificações sera necessario realizar os seguintes passos:
 
 ```
 - rvm install 2.2.2
@@ -174,11 +186,14 @@ Outputs:
 - rails s
 ```
 
-## endpoints da aplicação
+Ao termino do desenvolvimento é possivel testar suas modificações com o container de runtime de forma extrammente simples, pra isso será necessario executar um novo build(```make package-builder```) e então executar um ```package-runtime```, o codigo para essa task make pode ser visto abaixo:
 
-Conforme solicitado a aplicação possui alguns endpoints chave, e acabei tomando a liberdade me colacar alguma coisa
-a mais, segue abaixo:
-
-```
-
+```make
+package-runtime:
+docker-compose -p atemporal -f devops/bricky/atemporal-runtime.yml run \
+-e AWS_ACCESS_KEY=$(shell head -1 .credentials) \
+-e AWS_SECRET_ACCESS_KEY=$(shell tail -1 .credentials) \
+-e AWS_REGION=us-west-1 -e AWS_IMAGE_ID=ami-4df91b09 -e AWS_INSTANCE_TYPE=t1.micro \
+-e AWS_KEY_NAME=atemporal -e AWS_SECURITY_GROUP=atemporal-worker \
+--service-ports runtime /start
 ```
