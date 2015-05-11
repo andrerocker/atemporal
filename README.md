@@ -47,7 +47,20 @@ Conforme solicitado a aplicação possui alguns endpoints chave, e acabei tomand
 a mais, segue abaixo:
 
 ```
+GET    /
+GET    /jobs
+POST   /jobs                # params: image, time e payload (mais informações abaixo)
+GET    /jobs/:id
+PATCH  /jobs/:id/callback
+DELETE /jobs/:id/callback
+```
 
+*Observações sobre a criação de um novo Job:* 
+
+```
+- image: deve ser o nome de uma imagem valida publicada no dockerhub
+- time: o horario da execução do job em UTC seguindo o seguinte formato: 2015-04-25T05:27:27.069Z
+- payload: seu conjunto de variaveis de ambiente encodadas em base64
 ```
 
 
@@ -190,10 +203,10 @@ Ao termino do desenvolvimento é possivel testar suas modificações com o conta
 
 ```make
 package-runtime:
-docker-compose -p atemporal -f devops/bricky/atemporal-runtime.yml run \
--e AWS_ACCESS_KEY=$(shell head -1 .credentials) \
--e AWS_SECRET_ACCESS_KEY=$(shell tail -1 .credentials) \
--e AWS_REGION=us-west-1 -e AWS_IMAGE_ID=ami-4df91b09 -e AWS_INSTANCE_TYPE=t1.micro \
--e AWS_KEY_NAME=atemporal -e AWS_SECURITY_GROUP=atemporal-worker \
---service-ports runtime /start
+	docker-compose -p atemporal -f devops/bricky/atemporal-runtime.yml run \
+		-e AWS_ACCESS_KEY=$(shell head -1 .credentials) \
+		-e AWS_SECRET_ACCESS_KEY=$(shell tail -1 .credentials) \
+		-e AWS_REGION=us-west-1 -e AWS_IMAGE_ID=ami-4df91b09 -e AWS_INSTANCE_TYPE=t1.micro \
+		-e AWS_KEY_NAME=atemporal -e AWS_SECURITY_GROUP=atemporal-worker \
+		--service-ports runtime /start
 ```
