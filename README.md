@@ -51,7 +51,7 @@ GET    /
 GET    /jobs
 POST   /jobs                # params: image, time e payload (mais informações abaixo)
 GET    /jobs/:id
-PATCH  /jobs/:id/callback
+PATCH  /jobs/:id/callback   # set job to running
 DELETE /jobs/:id/callback
 ```
 
