@@ -19,7 +19,7 @@ Antes de iniciar você vai precisar instalar algumas coisas e configurar outras,
 - Certifique-se de que tem instalado as seguintes ferramentas: 
 	- local para deploy: make, docker, docker-compose, terraform 
 	- local para desenvolvimento: rvm (ruby 2.2.2), bundle, postgresql
-- Usuario local deve ter acesso ao daemon docker (usermod -a -G docker <seu usuario>
+- Usuario local deve ter acesso ao daemon docker (usermod -a -G docker <seu usuario>)
 - Certifique-se de estar logado no dockerhub 
 - As credenciais da AWS devem possuir as permissões necessarias para criar os recursos
 - Nesse momento ainda não é possivel fazer deploys concorrentes na mesma conta
@@ -43,7 +43,7 @@ Outputs:
 
 ## endpoints da aplicação
 
-Conforme solicitado a aplicação possui alguns endpoints chave, e acabei tomando a liberdade me colacar alguma coisa
+Conforme solicitado a aplicação possui alguns endpoints chave, e acabei tomando a liberdade de colocar alguma coisa
 a mais, segue abaixo:
 
 ```
