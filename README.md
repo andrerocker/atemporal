@@ -15,13 +15,13 @@ Antes de iniciar você vai precisar instalar algumas coisas e configurar outras,
 - realize o clone do projeto :p (git clone https://github.com/andrerocker/atemporal.git)
 - Você deve possuir uma chave publica RSA em ~/.ssh/id_rsa.pub (ssh-keygen -t rsa)
 - Criar um arquivo chamado .credentials, com duas linhas: chave e token da aws
-- Criar um arquivo chamado .docker-username, com uma linha, com seu conta do dockerhub
+- Criar um arquivo chamado .docker-username, com uma linha, com seu conta do dockerhub)
 - Certifique-se de que tem instalado as seguintes ferramentas: 
 	- local para deploy: make, docker, docker-compose, terraform 
 	- local para desenvolvimento: rvm (ruby 2.2.2), bundle, postgresql
 - Usuario local deve ter acesso ao daemon docker (usermod -a -G docker <seu usuario>
 - Certifique-se de estar logado no dockerhub 
-- As credenciais da AWS devem possuir as permissões necessaria para criar os recursos
+- As credenciais da AWS devem possuir as permissões necessarias para criar os recursos
 - Nesse momento ainda não é possivel fazer deploys concorrentes na mesma conta
 ```
 
