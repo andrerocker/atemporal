@@ -5,5 +5,6 @@ module JobRepresenter
   property :image  
   property :time  
   property :payload  
-  property :state  
+  property :state
+
 end

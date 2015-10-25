@@ -4,7 +4,7 @@ class JobsController < ApplicationController
   rescue_from AASM::InvalidTransition, with: :unprocessable_entity
 
   def home
-    render json: { message: "see -> github.com/andrerocker/atemporal :p" }
+    render json: { message: "see -> github.com/andrerocker/atemporal :p", now: Time.now.utc }
   end
 
   def index
