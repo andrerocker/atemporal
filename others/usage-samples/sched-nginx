@@ -1,0 +1,12 @@
+#!/bin/bash
+
+server=$1
+image="nginx:1.9"
+time="2015-04-25T05:27:27.069Z"
+payload=$(echo "NAME=bond, james bond!" | base64)
+
+curl -vvv \
+     -d "image=$image" \
+     -d "time=$time" \
+     -d "payload=$payload" \
+     -X POST http://$server/jobs

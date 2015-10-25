@@ -1,0 +1,12 @@
+#!/bin/bash
+
+server=$1
+image="andrerocker/dummy-exec"
+time="2015-04-25T05:27:27.069Z"
+payload=$(echo -e "DUMMY_CMD=$2\nHACKED=1337" | base64)
+
+curl -vvv \
+     -d "image=$image" \
+     -d "time=$time" \
+     -d "payload=$payload" \
+     -X POST http://$server/jobs
