@@ -9,9 +9,10 @@ gem 'foreman'
 gem 'aws-sdk'
 gem 'roar-rails'
 gem 'delayed_job_active_record'
+gem 'multi_json'
 
 group :development, :test do
-  gem 'pry'
+  gem 'pry-byebug'
   gem 'spring'
   gem 'dotenv-rails'
   gem 'better_errors'
