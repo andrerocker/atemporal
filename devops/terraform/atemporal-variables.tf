@@ -23,7 +23,7 @@ variable "server_instances_count" {
 }
 
 variable "coreos_ami" {
-  default = "ami-4df91b09"
+  default = "ami-2929ee6d"
 }
 
 variable "docker_username" {}
