@@ -8,7 +8,7 @@ class JobsController < ApplicationController
   end
 
   def index
-    render json: Job.all.order(:id).extend(JobsRepresenter)
+    render json: Job.ordered_schedules.extend(JobsRepresenter)
   end
 
   def create

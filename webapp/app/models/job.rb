@@ -19,6 +19,10 @@ class Job < ActiveRecord::Base
     create!(params).tap { |job| job.schedule! }
   end
 
+  scope :ordered_schedules, -> do
+    Job.all.includes(:instances).order(:id)
+  end
+  
   aasm column: :state do
     state :created, initial: true
     state :scheduled
