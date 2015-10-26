@@ -18,3 +18,4 @@ devops/bricky/containers/tmp
 .credentials
 *.tar
 .docker-username
+devops/terraform/*.tfstate*
