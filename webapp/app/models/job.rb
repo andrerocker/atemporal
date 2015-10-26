@@ -13,6 +13,7 @@ class Job < ActiveRecord::Base
   delegate :enqueue_service, to: :service
   delegate :prepare_service, to: :service
   delegate :destroy_service, to: :service
+  delegate :metadata_service, to: :service
 
   scope :create_and_schedule, ->(params) do
     create!(params).tap { |job| job.schedule! }
@@ -34,7 +35,7 @@ class Job < ActiveRecord::Base
     end
 
     event :running do
-      transitions from: :warming, to: :running
+      transitions from: :warming, to: :running, after: :metadata_service
     end
 
     event :finished do

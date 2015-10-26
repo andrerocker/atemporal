@@ -32,10 +32,27 @@ class JobService
   end
 
   def destroy_service
-    Aws::EC2::Client.new.terminate_instances(instance_ids: job.instances.collect(&:aws_id))
+    client.terminate_instances(instance_ids: job.instances.collect(&:aws_id))
   end
 
+  def metadata_service
+    response = client.describe_instances(instance_ids: job.instances.collect(&:aws_id))
+    response.reservations.each do |reservation|
+      reservation.instances.each do |instance|
+        Instance.where(aws_id: instance.instance_id).each do |current|
+          current.dns = instance.public_dns_name
+          current.ip = instance.public_ip_address
+          current.save!
+        end
+      end
+    end
+  end
+  
   private
+    def client
+      Aws::EC2::Client.new
+    end
+  
     def store_instance_ids(result)
       job.instances.create!(result.collect{|current| { aws_id: current.id }})
     end

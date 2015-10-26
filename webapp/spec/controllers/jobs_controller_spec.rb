@@ -69,6 +69,7 @@ RSpec.describe JobsController, type: :controller do
   describe "PATCH #running" do
     it "put a job on running state" do
       job = FactoryGirl.create(:job, state: "warming")
+      allow_any_instance_of(JobService).to receive(:metadata_service).and_return(true)
 
       patch :running, id: job.id
       expect(response.status).to eq 204

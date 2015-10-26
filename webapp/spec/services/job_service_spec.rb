@@ -20,25 +20,7 @@ RSpec.describe JobService do
     it "should call ec2 api to start our instance" do
       service = JobService.new(job)
 
-      # ENV = {
-      #   'AWS_IMAGE_ID': 'xxx',
-      #   'AWS_INSTANCE_TYPE': 'yyy', 
-      #   'AWS_SECURITY_GROUP': 'bbb',
-      #   'AWS_KEY_NAME': 'bbb'
-      # }
-
-      # config = { 
-      #   min_count: 1, 
-      #   max_count: 1, 
-      #   image_id: ENV['AWS_IMAGE_ID'], 
-      #   instance_type: ENV['AWS_INSTANCE_TYPE'],
-      #   security_groups: [ENV['AWS_SECURITY_GROUP']],
-      #   key_name: ENV['AWS_KEY_NAME'],
-      # }
-
       servers = [OpenStruct.new({id: "acme"})]
-
-      # :(
       allow_any_instance_of(Aws::EC2::Resource).to receive(:create_instances).and_return(servers)
       allow_any_instance_of(Aws::EC2::Resource).to receive(:create_tags)
 

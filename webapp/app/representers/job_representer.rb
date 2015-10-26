@@ -6,5 +6,5 @@ module JobRepresenter
   property :time  
   property :payload  
   property :state
-
+  collection :instances, extend: InstanceRepresenter
 end

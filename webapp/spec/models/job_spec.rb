@@ -65,7 +65,8 @@ RSpec.describe Job, type: :model do
 
     it "from warming to running" do
       current = FactoryGirl.create :job, state: "warming"
-
+      expect(current).to receive(:metadata_service)
+      
       current.running!
       expect(current.state).to eql "running"
     end
